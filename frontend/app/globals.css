@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0a0e14;
+  --bg-elevated: #10141c;
+  --card: #12161f;
+  --card-hover: #161b26;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --fg: #e6e8eb;
+  --fg-muted: #8b93a1;
+  --fg-faint: #565e6c;
+
+  --accent-green: #22d3a8;
+  --accent-green-dim: rgba(34, 211, 168, 0.12);
+  --accent-red: #f5576c;
+  --accent-red-dim: rgba(245, 87, 108, 0.12);
+  --accent-amber: #f5b942;
+  --accent-amber-dim: rgba(245, 185, 66, 0.12);
+  --accent-blue: #5b8def;
+  --accent-blue-dim: rgba(91, 141, 239, 0.12);
+
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-faint: var(--fg-faint);
+  --color-accent-green: var(--accent-green);
+  --color-accent-red: var(--accent-red);
+  --color-accent-amber: var(--accent-amber);
+  --color-accent-blue: var(--accent-blue);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+* {
+  border-color: var(--border);
+}
+
+body {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(91, 141, 239, 0.08), transparent),
+    var(--bg);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--accent-green-dim);
+  color: var(--accent-green);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fg-faint);
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(34, 211, 168, 0.5);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 0 4px rgba(34, 211, 168, 0);
+  }
+}
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-in-up {
+  animation: fade-in-up 0.4s ease-out both;
+}
