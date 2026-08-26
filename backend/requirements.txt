@@ -1,0 +1,14 @@
+razorpay
+groq
+python-dotenv
+pandas<3  # pandas 3.x breaks scikit-learn 1.9's ColumnTransformer (feature_names_in_ AttributeError)
+numpy
+scikit-learn
+rapidfuzz
+pydantic
+joblib
+sqlalchemy
+psycopg2-binary
+sentence-transformers
+fastapi
+uvicorn[standard]

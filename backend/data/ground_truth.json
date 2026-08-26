@@ -1,0 +1,3333 @@
+[
+  {
+    "txn_id": "TXN00227",
+    "order_id": "order_synth_227",
+    "ledger_row_ids": [
+      "LEDG00001"
+    ],
+    "bank_row_ids": [
+      "BANK00001"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00099",
+    "order_id": "order_synth_99",
+    "ledger_row_ids": [
+      "LEDG00002"
+    ],
+    "bank_row_ids": [
+      "BANK00002",
+      "BANK00003"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "duplicate",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00226",
+    "order_id": "order_synth_226",
+    "ledger_row_ids": [
+      "LEDG00003",
+      "LEDG00004"
+    ],
+    "bank_row_ids": [
+      "BANK00004"
+    ],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00198",
+    "order_id": "order_synth_198",
+    "ledger_row_ids": [],
+    "bank_row_ids": [
+      "BANK00005"
+    ],
+    "ledger_mismatch": "missing",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00085",
+    "order_id": "order_synth_85",
+    "ledger_row_ids": [
+      "LEDG00005"
+    ],
+    "bank_row_ids": [
+      "BANK00006"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00113",
+    "order_id": "order_synth_113",
+    "ledger_row_ids": [
+      "LEDG00006"
+    ],
+    "bank_row_ids": [
+      "BANK00007"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00153",
+    "order_id": "order_synth_153",
+    "ledger_row_ids": [
+      "LEDG00007"
+    ],
+    "bank_row_ids": [
+      "BANK00008"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00039",
+    "order_id": "order_synth_39",
+    "ledger_row_ids": [
+      "LEDG00008"
+    ],
+    "bank_row_ids": [
+      "BANK00009"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00105",
+    "order_id": "order_synth_105",
+    "ledger_row_ids": [
+      "LEDG00009"
+    ],
+    "bank_row_ids": [
+      "BANK00010"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00079",
+    "order_id": "order_synth_79",
+    "ledger_row_ids": [
+      "LEDG00010"
+    ],
+    "bank_row_ids": [
+      "BANK00011",
+      "BANK00012"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "duplicate",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00040",
+    "order_id": "order_synth_40",
+    "ledger_row_ids": [
+      "LEDG00011"
+    ],
+    "bank_row_ids": [
+      "BANK00013"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00175",
+    "order_id": "order_synth_175",
+    "ledger_row_ids": [
+      "LEDG00012",
+      "LEDG00013"
+    ],
+    "bank_row_ids": [
+      "BANK00014"
+    ],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00212",
+    "order_id": "order_synth_212",
+    "ledger_row_ids": [
+      "LEDG00014"
+    ],
+    "bank_row_ids": [
+      "BANK00015"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00219",
+    "order_id": "order_synth_219",
+    "ledger_row_ids": [
+      "LEDG00015"
+    ],
+    "bank_row_ids": [
+      "BANK00016"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00028",
+    "order_id": "order_synth_28",
+    "ledger_row_ids": [
+      "LEDG00016"
+    ],
+    "bank_row_ids": [
+      "BANK00017"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00152",
+    "order_id": "order_synth_152",
+    "ledger_row_ids": [
+      "LEDG00017"
+    ],
+    "bank_row_ids": [
+      "BANK00018"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00127",
+    "order_id": "order_synth_127",
+    "ledger_row_ids": [
+      "LEDG00018"
+    ],
+    "bank_row_ids": [
+      "BANK00019"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00119",
+    "order_id": "order_synth_119",
+    "ledger_row_ids": [
+      "LEDG00019"
+    ],
+    "bank_row_ids": [
+      "BANK00020",
+      "BANK00021"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "duplicate",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00157",
+    "order_id": "order_synth_157",
+    "ledger_row_ids": [
+      "LEDG00020"
+    ],
+    "bank_row_ids": [
+      "BANK00022"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00252",
+    "order_id": "order_synth_252",
+    "ledger_row_ids": [
+      "LEDG00021"
+    ],
+    "bank_row_ids": [
+      "BANK00023"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00154",
+    "order_id": "order_synth_154",
+    "ledger_row_ids": [
+      "LEDG00022"
+    ],
+    "bank_row_ids": [
+      "BANK00024"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00076",
+    "order_id": "order_synth_76",
+    "ledger_row_ids": [
+      "LEDG00023"
+    ],
+    "bank_row_ids": [
+      "BANK00025"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00030",
+    "order_id": "order_synth_30",
+    "ledger_row_ids": [
+      "LEDG00024"
+    ],
+    "bank_row_ids": [
+      "BANK00026"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00103",
+    "order_id": "order_synth_103",
+    "ledger_row_ids": [
+      "LEDG00025"
+    ],
+    "bank_row_ids": [
+      "BANK00027"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00218",
+    "order_id": "order_synth_218",
+    "ledger_row_ids": [
+      "LEDG00026"
+    ],
+    "bank_row_ids": [
+      "BANK00028"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00237",
+    "order_id": "order_synth_237",
+    "ledger_row_ids": [
+      "LEDG00027"
+    ],
+    "bank_row_ids": [],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "missing",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00073",
+    "order_id": "order_synth_73",
+    "ledger_row_ids": [
+      "LEDG00028"
+    ],
+    "bank_row_ids": [
+      "BANK00029"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00239",
+    "order_id": "order_synth_239",
+    "ledger_row_ids": [
+      "LEDG00029"
+    ],
+    "bank_row_ids": [
+      "BANK00030"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00091",
+    "order_id": "order_synth_91",
+    "ledger_row_ids": [
+      "LEDG00030"
+    ],
+    "bank_row_ids": [
+      "BANK00031",
+      "BANK00032"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "duplicate",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00195",
+    "order_id": "order_synth_195",
+    "ledger_row_ids": [
+      "LEDG00031"
+    ],
+    "bank_row_ids": [
+      "BANK00033"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00249",
+    "order_id": "order_synth_249",
+    "ledger_row_ids": [
+      "LEDG00032"
+    ],
+    "bank_row_ids": [
+      "BANK00034"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00098",
+    "order_id": "order_synth_98",
+    "ledger_row_ids": [
+      "LEDG00033"
+    ],
+    "bank_row_ids": [
+      "BANK00035"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00072",
+    "order_id": "order_synth_72",
+    "ledger_row_ids": [
+      "LEDG00034"
+    ],
+    "bank_row_ids": [
+      "BANK00036"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00032",
+    "order_id": "order_synth_32",
+    "ledger_row_ids": [
+      "LEDG00035"
+    ],
+    "bank_row_ids": [
+      "BANK00037",
+      "BANK00038"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "duplicate",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00182",
+    "order_id": "order_synth_182",
+    "ledger_row_ids": [
+      "LEDG00036"
+    ],
+    "bank_row_ids": [
+      "BANK00039"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00168",
+    "order_id": "order_synth_168",
+    "ledger_row_ids": [
+      "LEDG00037"
+    ],
+    "bank_row_ids": [
+      "BANK00040"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00166",
+    "order_id": "order_synth_166",
+    "ledger_row_ids": [
+      "LEDG00038"
+    ],
+    "bank_row_ids": [
+      "BANK00041"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00163",
+    "order_id": "order_synth_163",
+    "ledger_row_ids": [
+      "LEDG00039"
+    ],
+    "bank_row_ids": [
+      "BANK00042"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00128",
+    "order_id": "order_synth_128",
+    "ledger_row_ids": [
+      "LEDG00040"
+    ],
+    "bank_row_ids": [
+      "BANK00043"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00238",
+    "order_id": "order_synth_238",
+    "ledger_row_ids": [
+      "LEDG00041"
+    ],
+    "bank_row_ids": [
+      "BANK00044",
+      "BANK00045"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "duplicate",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00210",
+    "order_id": "order_synth_210",
+    "ledger_row_ids": [
+      "LEDG00042"
+    ],
+    "bank_row_ids": [
+      "BANK00046"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00143",
+    "order_id": "order_synth_143",
+    "ledger_row_ids": [
+      "LEDG00043"
+    ],
+    "bank_row_ids": [
+      "BANK00047"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00150",
+    "order_id": "order_synth_150",
+    "ledger_row_ids": [
+      "LEDG00044"
+    ],
+    "bank_row_ids": [
+      "BANK00048"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00201",
+    "order_id": "order_synth_201",
+    "ledger_row_ids": [
+      "LEDG00045"
+    ],
+    "bank_row_ids": [
+      "BANK00049"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00233",
+    "order_id": "order_synth_233",
+    "ledger_row_ids": [
+      "LEDG00046"
+    ],
+    "bank_row_ids": [
+      "BANK00050"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00144",
+    "order_id": "order_synth_144",
+    "ledger_row_ids": [
+      "LEDG00047"
+    ],
+    "bank_row_ids": [
+      "BANK00051"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00125",
+    "order_id": "order_synth_125",
+    "ledger_row_ids": [
+      "LEDG00048"
+    ],
+    "bank_row_ids": [],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "missing",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00027",
+    "order_id": "order_synth_27",
+    "ledger_row_ids": [
+      "LEDG00049"
+    ],
+    "bank_row_ids": [
+      "BANK00052"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00097",
+    "order_id": "order_synth_97",
+    "ledger_row_ids": [
+      "LEDG00050"
+    ],
+    "bank_row_ids": [
+      "BANK00053"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00024",
+    "order_id": "order_synth_24",
+    "ledger_row_ids": [
+      "LEDG00051"
+    ],
+    "bank_row_ids": [
+      "BANK00054"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00094",
+    "order_id": "order_synth_94",
+    "ledger_row_ids": [
+      "LEDG00052"
+    ],
+    "bank_row_ids": [
+      "BANK00055"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00240",
+    "order_id": "order_synth_240",
+    "ledger_row_ids": [
+      "LEDG00053"
+    ],
+    "bank_row_ids": [
+      "BANK00056"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00123",
+    "order_id": "order_synth_123",
+    "ledger_row_ids": [
+      "LEDG00054"
+    ],
+    "bank_row_ids": [
+      "BANK00057"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00111",
+    "order_id": "order_synth_111",
+    "ledger_row_ids": [
+      "LEDG00055"
+    ],
+    "bank_row_ids": [
+      "BANK00058"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00057",
+    "order_id": "order_synth_57",
+    "ledger_row_ids": [
+      "LEDG00056"
+    ],
+    "bank_row_ids": [
+      "BANK00059"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00018",
+    "order_id": "order_synth_18",
+    "ledger_row_ids": [
+      "LEDG00057"
+    ],
+    "bank_row_ids": [
+      "BANK00060",
+      "BANK00061"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "duplicate",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00026",
+    "order_id": "order_synth_26",
+    "ledger_row_ids": [
+      "LEDG00058"
+    ],
+    "bank_row_ids": [
+      "BANK00062"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00048",
+    "order_id": "order_synth_48",
+    "ledger_row_ids": [
+      "LEDG00059",
+      "LEDG00060"
+    ],
+    "bank_row_ids": [],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "missing",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00100",
+    "order_id": "order_synth_100",
+    "ledger_row_ids": [
+      "LEDG00061"
+    ],
+    "bank_row_ids": [
+      "BANK00063",
+      "BANK00064"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "duplicate",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00010",
+    "order_id": "order_synth_10",
+    "ledger_row_ids": [
+      "LEDG00062"
+    ],
+    "bank_row_ids": [
+      "BANK00065"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00096",
+    "order_id": "order_synth_96",
+    "ledger_row_ids": [
+      "LEDG00063"
+    ],
+    "bank_row_ids": [
+      "BANK00066"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00059",
+    "order_id": "order_synth_59",
+    "ledger_row_ids": [
+      "LEDG00064"
+    ],
+    "bank_row_ids": [
+      "BANK00067"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00138",
+    "order_id": "order_synth_138",
+    "ledger_row_ids": [
+      "LEDG00065"
+    ],
+    "bank_row_ids": [
+      "BANK00068"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00112",
+    "order_id": "order_synth_112",
+    "ledger_row_ids": [
+      "LEDG00066"
+    ],
+    "bank_row_ids": [
+      "BANK00069"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00029",
+    "order_id": "order_synth_29",
+    "ledger_row_ids": [
+      "LEDG00067",
+      "LEDG00068"
+    ],
+    "bank_row_ids": [
+      "BANK00070"
+    ],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00078",
+    "order_id": "order_synth_78",
+    "ledger_row_ids": [
+      "LEDG00069"
+    ],
+    "bank_row_ids": [
+      "BANK00071"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00215",
+    "order_id": "order_synth_215",
+    "ledger_row_ids": [
+      "LEDG00070"
+    ],
+    "bank_row_ids": [
+      "BANK00072"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00008",
+    "order_id": "order_synth_8",
+    "ledger_row_ids": [
+      "LEDG00071"
+    ],
+    "bank_row_ids": [],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "missing",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00023",
+    "order_id": "order_synth_23",
+    "ledger_row_ids": [
+      "LEDG00072"
+    ],
+    "bank_row_ids": [
+      "BANK00073"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00180",
+    "order_id": "order_synth_180",
+    "ledger_row_ids": [
+      "LEDG00073"
+    ],
+    "bank_row_ids": [
+      "BANK00074"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00148",
+    "order_id": "order_synth_148",
+    "ledger_row_ids": [
+      "LEDG00074"
+    ],
+    "bank_row_ids": [
+      "BANK00075",
+      "BANK00076"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "duplicate",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00070",
+    "order_id": "order_synth_70",
+    "ledger_row_ids": [
+      "LEDG00075"
+    ],
+    "bank_row_ids": [
+      "BANK00077"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00185",
+    "order_id": "order_synth_185",
+    "ledger_row_ids": [
+      "LEDG00076"
+    ],
+    "bank_row_ids": [
+      "BANK00078"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00246",
+    "order_id": "order_synth_246",
+    "ledger_row_ids": [
+      "LEDG00077"
+    ],
+    "bank_row_ids": [
+      "BANK00079",
+      "BANK00080"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "duplicate",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00242",
+    "order_id": "order_synth_242",
+    "ledger_row_ids": [
+      "LEDG00078"
+    ],
+    "bank_row_ids": [
+      "BANK00081"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00060",
+    "order_id": "order_synth_60",
+    "ledger_row_ids": [
+      "LEDG00079"
+    ],
+    "bank_row_ids": [
+      "BANK00082"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00188",
+    "order_id": "order_synth_188",
+    "ledger_row_ids": [
+      "LEDG00080"
+    ],
+    "bank_row_ids": [
+      "BANK00083"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00170",
+    "order_id": "order_synth_170",
+    "ledger_row_ids": [
+      "LEDG00081",
+      "LEDG00082"
+    ],
+    "bank_row_ids": [
+      "BANK00084"
+    ],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00184",
+    "order_id": "order_synth_184",
+    "ledger_row_ids": [
+      "LEDG00083"
+    ],
+    "bank_row_ids": [
+      "BANK00085"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00216",
+    "order_id": "order_synth_216",
+    "ledger_row_ids": [
+      "LEDG00084"
+    ],
+    "bank_row_ids": [
+      "BANK00086"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00196",
+    "order_id": "order_synth_196",
+    "ledger_row_ids": [
+      "LEDG00085"
+    ],
+    "bank_row_ids": [
+      "BANK00087"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00221",
+    "order_id": "order_synth_221",
+    "ledger_row_ids": [
+      "LEDG00086"
+    ],
+    "bank_row_ids": [
+      "BANK00088"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00068",
+    "order_id": "order_synth_68",
+    "ledger_row_ids": [
+      "LEDG00087"
+    ],
+    "bank_row_ids": [
+      "BANK00089",
+      "BANK00090"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "duplicate",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00126",
+    "order_id": "order_synth_126",
+    "ledger_row_ids": [
+      "LEDG00088"
+    ],
+    "bank_row_ids": [
+      "BANK00091"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00041",
+    "order_id": "order_synth_41",
+    "ledger_row_ids": [
+      "LEDG00089"
+    ],
+    "bank_row_ids": [
+      "BANK00092"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00193",
+    "order_id": "order_synth_193",
+    "ledger_row_ids": [
+      "LEDG00090"
+    ],
+    "bank_row_ids": [
+      "BANK00093"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00062",
+    "order_id": "order_synth_62",
+    "ledger_row_ids": [
+      "LEDG00091"
+    ],
+    "bank_row_ids": [
+      "BANK00094"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00081",
+    "order_id": "order_synth_81",
+    "ledger_row_ids": [
+      "LEDG00092"
+    ],
+    "bank_row_ids": [
+      "BANK00095"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00156",
+    "order_id": "order_synth_156",
+    "ledger_row_ids": [
+      "LEDG00093"
+    ],
+    "bank_row_ids": [
+      "BANK00096"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00036",
+    "order_id": "order_synth_36",
+    "ledger_row_ids": [],
+    "bank_row_ids": [
+      "BANK00097"
+    ],
+    "ledger_mismatch": "missing",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00202",
+    "order_id": "order_synth_202",
+    "ledger_row_ids": [
+      "LEDG00094"
+    ],
+    "bank_row_ids": [
+      "BANK00098"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00012",
+    "order_id": "order_synth_12",
+    "ledger_row_ids": [
+      "LEDG00095"
+    ],
+    "bank_row_ids": [
+      "BANK00099"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00181",
+    "order_id": "order_synth_181",
+    "ledger_row_ids": [
+      "LEDG00096"
+    ],
+    "bank_row_ids": [
+      "BANK00100"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00229",
+    "order_id": "order_synth_229",
+    "ledger_row_ids": [
+      "LEDG00097"
+    ],
+    "bank_row_ids": [
+      "BANK00101"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00089",
+    "order_id": "order_synth_89",
+    "ledger_row_ids": [
+      "LEDG00098"
+    ],
+    "bank_row_ids": [
+      "BANK00102"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00192",
+    "order_id": "order_synth_192",
+    "ledger_row_ids": [
+      "LEDG00099"
+    ],
+    "bank_row_ids": [
+      "BANK00103"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00038",
+    "order_id": "order_synth_38",
+    "ledger_row_ids": [
+      "LEDG00100"
+    ],
+    "bank_row_ids": [
+      "BANK00104"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00178",
+    "order_id": "order_synth_178",
+    "ledger_row_ids": [
+      "LEDG00101"
+    ],
+    "bank_row_ids": [
+      "BANK00105"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00107",
+    "order_id": "order_synth_107",
+    "ledger_row_ids": [
+      "LEDG00102"
+    ],
+    "bank_row_ids": [
+      "BANK00106"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00055",
+    "order_id": "order_synth_55",
+    "ledger_row_ids": [
+      "LEDG00103"
+    ],
+    "bank_row_ids": [
+      "BANK00107"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00131",
+    "order_id": "order_synth_131",
+    "ledger_row_ids": [
+      "LEDG00104"
+    ],
+    "bank_row_ids": [
+      "BANK00108"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00177",
+    "order_id": "order_synth_177",
+    "ledger_row_ids": [
+      "LEDG00105"
+    ],
+    "bank_row_ids": [
+      "BANK00109"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00022",
+    "order_id": "order_synth_22",
+    "ledger_row_ids": [
+      "LEDG00106"
+    ],
+    "bank_row_ids": [
+      "BANK00110"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00230",
+    "order_id": "order_synth_230",
+    "ledger_row_ids": [
+      "LEDG00107"
+    ],
+    "bank_row_ids": [
+      "BANK00111"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00108",
+    "order_id": "order_synth_108",
+    "ledger_row_ids": [
+      "LEDG00108"
+    ],
+    "bank_row_ids": [
+      "BANK00112"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00106",
+    "order_id": "order_synth_106",
+    "ledger_row_ids": [
+      "LEDG00109"
+    ],
+    "bank_row_ids": [
+      "BANK00113"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00139",
+    "order_id": "order_synth_139",
+    "ledger_row_ids": [
+      "LEDG00110"
+    ],
+    "bank_row_ids": [
+      "BANK00114"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00209",
+    "order_id": "order_synth_209",
+    "ledger_row_ids": [
+      "LEDG00111"
+    ],
+    "bank_row_ids": [
+      "BANK00115"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00095",
+    "order_id": "order_synth_95",
+    "ledger_row_ids": [
+      "LEDG00112"
+    ],
+    "bank_row_ids": [],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "missing",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00086",
+    "order_id": "order_synth_86",
+    "ledger_row_ids": [
+      "LEDG00113"
+    ],
+    "bank_row_ids": [
+      "BANK00116"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00197",
+    "order_id": "order_synth_197",
+    "ledger_row_ids": [
+      "LEDG00114"
+    ],
+    "bank_row_ids": [
+      "BANK00117"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00241",
+    "order_id": "order_synth_241",
+    "ledger_row_ids": [
+      "LEDG00115",
+      "LEDG00116"
+    ],
+    "bank_row_ids": [
+      "BANK00118"
+    ],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00117",
+    "order_id": "order_synth_117",
+    "ledger_row_ids": [
+      "LEDG00117"
+    ],
+    "bank_row_ids": [
+      "BANK00119"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00063",
+    "order_id": "order_synth_63",
+    "ledger_row_ids": [
+      "LEDG00118",
+      "LEDG00119"
+    ],
+    "bank_row_ids": [
+      "BANK00120"
+    ],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00129",
+    "order_id": "order_synth_129",
+    "ledger_row_ids": [
+      "LEDG00120"
+    ],
+    "bank_row_ids": [
+      "BANK00121"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00084",
+    "order_id": "order_synth_84",
+    "ledger_row_ids": [
+      "LEDG00121"
+    ],
+    "bank_row_ids": [
+      "BANK00122"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00031",
+    "order_id": "order_synth_31",
+    "ledger_row_ids": [
+      "LEDG00122"
+    ],
+    "bank_row_ids": [
+      "BANK00123"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00134",
+    "order_id": "order_synth_134",
+    "ledger_row_ids": [
+      "LEDG00123"
+    ],
+    "bank_row_ids": [
+      "BANK00124"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00045",
+    "order_id": "order_synth_45",
+    "ledger_row_ids": [
+      "LEDG00124"
+    ],
+    "bank_row_ids": [
+      "BANK00125"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00164",
+    "order_id": "order_synth_164",
+    "ledger_row_ids": [
+      "LEDG00125"
+    ],
+    "bank_row_ids": [
+      "BANK00126"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00145",
+    "order_id": "order_synth_145",
+    "ledger_row_ids": [],
+    "bank_row_ids": [
+      "BANK00127"
+    ],
+    "ledger_mismatch": "missing",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00205",
+    "order_id": "order_synth_205",
+    "ledger_row_ids": [
+      "LEDG00126"
+    ],
+    "bank_row_ids": [
+      "BANK00128"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00019",
+    "order_id": "order_synth_19",
+    "ledger_row_ids": [
+      "LEDG00127"
+    ],
+    "bank_row_ids": [
+      "BANK00129"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00135",
+    "order_id": "order_synth_135",
+    "ledger_row_ids": [
+      "LEDG00128"
+    ],
+    "bank_row_ids": [
+      "BANK00130"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00207",
+    "order_id": "order_synth_207",
+    "ledger_row_ids": [
+      "LEDG00129"
+    ],
+    "bank_row_ids": [
+      "BANK00131"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00124",
+    "order_id": "order_synth_124",
+    "ledger_row_ids": [
+      "LEDG00130"
+    ],
+    "bank_row_ids": [
+      "BANK00132"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00082",
+    "order_id": "order_synth_82",
+    "ledger_row_ids": [
+      "LEDG00131"
+    ],
+    "bank_row_ids": [
+      "BANK00133"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00083",
+    "order_id": "order_synth_83",
+    "ledger_row_ids": [
+      "LEDG00132"
+    ],
+    "bank_row_ids": [
+      "BANK00134"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00199",
+    "order_id": "order_synth_199",
+    "ledger_row_ids": [
+      "LEDG00133"
+    ],
+    "bank_row_ids": [
+      "BANK00135"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00186",
+    "order_id": "order_synth_186",
+    "ledger_row_ids": [
+      "LEDG00134"
+    ],
+    "bank_row_ids": [
+      "BANK00136"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00137",
+    "order_id": "order_synth_137",
+    "ledger_row_ids": [
+      "LEDG00135"
+    ],
+    "bank_row_ids": [
+      "BANK00137"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00016",
+    "order_id": "order_synth_16",
+    "ledger_row_ids": [
+      "LEDG00136",
+      "LEDG00137"
+    ],
+    "bank_row_ids": [
+      "BANK00138"
+    ],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00179",
+    "order_id": "order_synth_179",
+    "ledger_row_ids": [
+      "LEDG00138"
+    ],
+    "bank_row_ids": [
+      "BANK00139"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00114",
+    "order_id": "order_synth_114",
+    "ledger_row_ids": [
+      "LEDG00139"
+    ],
+    "bank_row_ids": [
+      "BANK00140"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00247",
+    "order_id": "order_synth_247",
+    "ledger_row_ids": [
+      "LEDG00140"
+    ],
+    "bank_row_ids": [
+      "BANK00141"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00015",
+    "order_id": "order_synth_15",
+    "ledger_row_ids": [
+      "LEDG00141",
+      "LEDG00142"
+    ],
+    "bank_row_ids": [
+      "BANK00142"
+    ],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00189",
+    "order_id": "order_synth_189",
+    "ledger_row_ids": [
+      "LEDG00143"
+    ],
+    "bank_row_ids": [
+      "BANK00143"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00172",
+    "order_id": "order_synth_172",
+    "ledger_row_ids": [
+      "LEDG00144"
+    ],
+    "bank_row_ids": [
+      "BANK00144"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00080",
+    "order_id": "order_synth_80",
+    "ledger_row_ids": [
+      "LEDG00145"
+    ],
+    "bank_row_ids": [
+      "BANK00145"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00042",
+    "order_id": "order_synth_42",
+    "ledger_row_ids": [
+      "LEDG00146"
+    ],
+    "bank_row_ids": [
+      "BANK00146"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00173",
+    "order_id": "order_synth_173",
+    "ledger_row_ids": [
+      "LEDG00147"
+    ],
+    "bank_row_ids": [
+      "BANK00147"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00054",
+    "order_id": "order_synth_54",
+    "ledger_row_ids": [
+      "LEDG00148",
+      "LEDG00149"
+    ],
+    "bank_row_ids": [
+      "BANK00148"
+    ],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00253",
+    "order_id": "order_synth_253",
+    "ledger_row_ids": [
+      "LEDG00150"
+    ],
+    "bank_row_ids": [
+      "BANK00149"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00035",
+    "order_id": "order_synth_35",
+    "ledger_row_ids": [],
+    "bank_row_ids": [],
+    "ledger_mismatch": "missing",
+    "bank_mismatch": "missing",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00236",
+    "order_id": "order_synth_236",
+    "ledger_row_ids": [
+      "LEDG00151"
+    ],
+    "bank_row_ids": [
+      "BANK00150"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00136",
+    "order_id": "order_synth_136",
+    "ledger_row_ids": [
+      "LEDG00152"
+    ],
+    "bank_row_ids": [
+      "BANK00151"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00066",
+    "order_id": "order_synth_66",
+    "ledger_row_ids": [
+      "LEDG00153"
+    ],
+    "bank_row_ids": [
+      "BANK00152"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00122",
+    "order_id": "order_synth_122",
+    "ledger_row_ids": [
+      "LEDG00154"
+    ],
+    "bank_row_ids": [
+      "BANK00153"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00056",
+    "order_id": "order_synth_56",
+    "ledger_row_ids": [
+      "LEDG00155"
+    ],
+    "bank_row_ids": [
+      "BANK00154"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00044",
+    "order_id": "order_synth_44",
+    "ledger_row_ids": [
+      "LEDG00156"
+    ],
+    "bank_row_ids": [
+      "BANK00155"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00065",
+    "order_id": "order_synth_65",
+    "ledger_row_ids": [
+      "LEDG00157"
+    ],
+    "bank_row_ids": [
+      "BANK00156"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00021",
+    "order_id": "order_synth_21",
+    "ledger_row_ids": [],
+    "bank_row_ids": [
+      "BANK00157"
+    ],
+    "ledger_mismatch": "missing",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00214",
+    "order_id": "order_synth_214",
+    "ledger_row_ids": [
+      "LEDG00158"
+    ],
+    "bank_row_ids": [
+      "BANK00158"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00208",
+    "order_id": "order_synth_208",
+    "ledger_row_ids": [
+      "LEDG00159"
+    ],
+    "bank_row_ids": [
+      "BANK00159"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00101",
+    "order_id": "order_synth_101",
+    "ledger_row_ids": [
+      "LEDG00160"
+    ],
+    "bank_row_ids": [
+      "BANK00160"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00257",
+    "order_id": "order_synth_257",
+    "ledger_row_ids": [],
+    "bank_row_ids": [
+      "BANK00161"
+    ],
+    "ledger_mismatch": "missing",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00061",
+    "order_id": "order_synth_61",
+    "ledger_row_ids": [
+      "LEDG00161"
+    ],
+    "bank_row_ids": [
+      "BANK00162"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00243",
+    "order_id": "order_synth_243",
+    "ledger_row_ids": [
+      "LEDG00162",
+      "LEDG00163"
+    ],
+    "bank_row_ids": [],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "missing",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00013",
+    "order_id": "order_synth_13",
+    "ledger_row_ids": [
+      "LEDG00164"
+    ],
+    "bank_row_ids": [
+      "BANK00163"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00120",
+    "order_id": "order_synth_120",
+    "ledger_row_ids": [
+      "LEDG00165"
+    ],
+    "bank_row_ids": [
+      "BANK00164"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00183",
+    "order_id": "order_synth_183",
+    "ledger_row_ids": [
+      "LEDG00166"
+    ],
+    "bank_row_ids": [
+      "BANK00165"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00161",
+    "order_id": "order_synth_161",
+    "ledger_row_ids": [
+      "LEDG00167"
+    ],
+    "bank_row_ids": [
+      "BANK00166"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00235",
+    "order_id": "order_synth_235",
+    "ledger_row_ids": [
+      "LEDG00168",
+      "LEDG00169"
+    ],
+    "bank_row_ids": [
+      "BANK00167"
+    ],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00256",
+    "order_id": "order_synth_256",
+    "ledger_row_ids": [
+      "LEDG00170"
+    ],
+    "bank_row_ids": [
+      "BANK00168"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00169",
+    "order_id": "order_synth_169",
+    "ledger_row_ids": [
+      "LEDG00171"
+    ],
+    "bank_row_ids": [
+      "BANK00169"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00051",
+    "order_id": "order_synth_51",
+    "ledger_row_ids": [
+      "LEDG00172"
+    ],
+    "bank_row_ids": [
+      "BANK00170"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00187",
+    "order_id": "order_synth_187",
+    "ledger_row_ids": [
+      "LEDG00173"
+    ],
+    "bank_row_ids": [
+      "BANK00171"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00009",
+    "order_id": "order_synth_9",
+    "ledger_row_ids": [
+      "LEDG00174"
+    ],
+    "bank_row_ids": [
+      "BANK00172"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00110",
+    "order_id": "order_synth_110",
+    "ledger_row_ids": [
+      "LEDG00175",
+      "LEDG00176"
+    ],
+    "bank_row_ids": [
+      "BANK00173"
+    ],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00225",
+    "order_id": "order_synth_225",
+    "ledger_row_ids": [
+      "LEDG00177"
+    ],
+    "bank_row_ids": [
+      "BANK00174"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00067",
+    "order_id": "order_synth_67",
+    "ledger_row_ids": [
+      "LEDG00178"
+    ],
+    "bank_row_ids": [
+      "BANK00175"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00142",
+    "order_id": "order_synth_142",
+    "ledger_row_ids": [
+      "LEDG00179"
+    ],
+    "bank_row_ids": [
+      "BANK00176"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00058",
+    "order_id": "order_synth_58",
+    "ledger_row_ids": [
+      "LEDG00180"
+    ],
+    "bank_row_ids": [
+      "BANK00177"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00011",
+    "order_id": "order_synth_11",
+    "ledger_row_ids": [
+      "LEDG00181"
+    ],
+    "bank_row_ids": [
+      "BANK00178"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00141",
+    "order_id": "order_synth_141",
+    "ledger_row_ids": [
+      "LEDG00182"
+    ],
+    "bank_row_ids": [
+      "BANK00179"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00248",
+    "order_id": "order_synth_248",
+    "ledger_row_ids": [
+      "LEDG00183"
+    ],
+    "bank_row_ids": [
+      "BANK00180"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00075",
+    "order_id": "order_synth_75",
+    "ledger_row_ids": [
+      "LEDG00184"
+    ],
+    "bank_row_ids": [],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "missing",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00162",
+    "order_id": "order_synth_162",
+    "ledger_row_ids": [
+      "LEDG00185"
+    ],
+    "bank_row_ids": [
+      "BANK00181"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00104",
+    "order_id": "order_synth_104",
+    "ledger_row_ids": [
+      "LEDG00186"
+    ],
+    "bank_row_ids": [
+      "BANK00182",
+      "BANK00183"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "duplicate",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00200",
+    "order_id": "order_synth_200",
+    "ledger_row_ids": [
+      "LEDG00187"
+    ],
+    "bank_row_ids": [],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "missing",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00146",
+    "order_id": "order_synth_146",
+    "ledger_row_ids": [
+      "LEDG00188"
+    ],
+    "bank_row_ids": [
+      "BANK00184"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00109",
+    "order_id": "order_synth_109",
+    "ledger_row_ids": [
+      "LEDG00189"
+    ],
+    "bank_row_ids": [
+      "BANK00185"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00115",
+    "order_id": "order_synth_115",
+    "ledger_row_ids": [
+      "LEDG00190"
+    ],
+    "bank_row_ids": [
+      "BANK00186"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00118",
+    "order_id": "order_synth_118",
+    "ledger_row_ids": [
+      "LEDG00191"
+    ],
+    "bank_row_ids": [
+      "BANK00187"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00176",
+    "order_id": "order_synth_176",
+    "ledger_row_ids": [
+      "LEDG00192"
+    ],
+    "bank_row_ids": [
+      "BANK00188"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00250",
+    "order_id": "order_synth_250",
+    "ledger_row_ids": [],
+    "bank_row_ids": [
+      "BANK00189"
+    ],
+    "ledger_mismatch": "missing",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00092",
+    "order_id": "order_synth_92",
+    "ledger_row_ids": [
+      "LEDG00193"
+    ],
+    "bank_row_ids": [
+      "BANK00190"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00071",
+    "order_id": "order_synth_71",
+    "ledger_row_ids": [
+      "LEDG00194"
+    ],
+    "bank_row_ids": [
+      "BANK00191"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00191",
+    "order_id": "order_synth_191",
+    "ledger_row_ids": [
+      "LEDG00195"
+    ],
+    "bank_row_ids": [
+      "BANK00192"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00090",
+    "order_id": "order_synth_90",
+    "ledger_row_ids": [
+      "LEDG00196"
+    ],
+    "bank_row_ids": [
+      "BANK00193"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00052",
+    "order_id": "order_synth_52",
+    "ledger_row_ids": [
+      "LEDG00197"
+    ],
+    "bank_row_ids": [
+      "BANK00194"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00167",
+    "order_id": "order_synth_167",
+    "ledger_row_ids": [
+      "LEDG00198"
+    ],
+    "bank_row_ids": [
+      "BANK00195"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00116",
+    "order_id": "order_synth_116",
+    "ledger_row_ids": [
+      "LEDG00199"
+    ],
+    "bank_row_ids": [
+      "BANK00196"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00093",
+    "order_id": "order_synth_93",
+    "ledger_row_ids": [
+      "LEDG00200"
+    ],
+    "bank_row_ids": [
+      "BANK00197"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00043",
+    "order_id": "order_synth_43",
+    "ledger_row_ids": [
+      "LEDG00201"
+    ],
+    "bank_row_ids": [
+      "BANK00198"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00069",
+    "order_id": "order_synth_69",
+    "ledger_row_ids": [
+      "LEDG00202"
+    ],
+    "bank_row_ids": [
+      "BANK00199"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00224",
+    "order_id": "order_synth_224",
+    "ledger_row_ids": [
+      "LEDG00203"
+    ],
+    "bank_row_ids": [
+      "BANK00200"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00140",
+    "order_id": "order_synth_140",
+    "ledger_row_ids": [
+      "LEDG00204",
+      "LEDG00205"
+    ],
+    "bank_row_ids": [
+      "BANK00201"
+    ],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00088",
+    "order_id": "order_synth_88",
+    "ledger_row_ids": [
+      "LEDG00206"
+    ],
+    "bank_row_ids": [
+      "BANK00202"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00160",
+    "order_id": "order_synth_160",
+    "ledger_row_ids": [
+      "LEDG00207"
+    ],
+    "bank_row_ids": [],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "missing",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00245",
+    "order_id": "order_synth_245",
+    "ledger_row_ids": [
+      "LEDG00208"
+    ],
+    "bank_row_ids": [
+      "BANK00203"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00132",
+    "order_id": "order_synth_132",
+    "ledger_row_ids": [
+      "LEDG00209"
+    ],
+    "bank_row_ids": [
+      "BANK00204"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00017",
+    "order_id": "order_synth_17",
+    "ledger_row_ids": [
+      "LEDG00210"
+    ],
+    "bank_row_ids": [
+      "BANK00205"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00165",
+    "order_id": "order_synth_165",
+    "ledger_row_ids": [
+      "LEDG00211"
+    ],
+    "bank_row_ids": [
+      "BANK00206"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00213",
+    "order_id": "order_synth_213",
+    "ledger_row_ids": [
+      "LEDG00212",
+      "LEDG00213"
+    ],
+    "bank_row_ids": [
+      "BANK00207"
+    ],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00194",
+    "order_id": "order_synth_194",
+    "ledger_row_ids": [
+      "LEDG00214"
+    ],
+    "bank_row_ids": [
+      "BANK00208"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00034",
+    "order_id": "order_synth_34",
+    "ledger_row_ids": [
+      "LEDG00215"
+    ],
+    "bank_row_ids": [
+      "BANK00209"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00087",
+    "order_id": "order_synth_87",
+    "ledger_row_ids": [
+      "LEDG00216"
+    ],
+    "bank_row_ids": [
+      "BANK00210"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00155",
+    "order_id": "order_synth_155",
+    "ledger_row_ids": [
+      "LEDG00217"
+    ],
+    "bank_row_ids": [
+      "BANK00211"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00158",
+    "order_id": "order_synth_158",
+    "ledger_row_ids": [
+      "LEDG00218"
+    ],
+    "bank_row_ids": [],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "missing",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00211",
+    "order_id": "order_synth_211",
+    "ledger_row_ids": [
+      "LEDG00219",
+      "LEDG00220"
+    ],
+    "bank_row_ids": [
+      "BANK00212"
+    ],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00171",
+    "order_id": "order_synth_171",
+    "ledger_row_ids": [
+      "LEDG00221"
+    ],
+    "bank_row_ids": [
+      "BANK00213"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00014",
+    "order_id": "order_synth_14",
+    "ledger_row_ids": [
+      "LEDG00222"
+    ],
+    "bank_row_ids": [
+      "BANK00214"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00133",
+    "order_id": "order_synth_133",
+    "ledger_row_ids": [
+      "LEDG00223"
+    ],
+    "bank_row_ids": [
+      "BANK00215"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00244",
+    "order_id": "order_synth_244",
+    "ledger_row_ids": [
+      "LEDG00224"
+    ],
+    "bank_row_ids": [
+      "BANK00216"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00231",
+    "order_id": "order_synth_231",
+    "ledger_row_ids": [
+      "LEDG00225",
+      "LEDG00226"
+    ],
+    "bank_row_ids": [
+      "BANK00217"
+    ],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00234",
+    "order_id": "order_synth_234",
+    "ledger_row_ids": [
+      "LEDG00227"
+    ],
+    "bank_row_ids": [
+      "BANK00218"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00255",
+    "order_id": "order_synth_255",
+    "ledger_row_ids": [
+      "LEDG00228"
+    ],
+    "bank_row_ids": [
+      "BANK00219"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00130",
+    "order_id": "order_synth_130",
+    "ledger_row_ids": [
+      "LEDG00229"
+    ],
+    "bank_row_ids": [
+      "BANK00220"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00049",
+    "order_id": "order_synth_49",
+    "ledger_row_ids": [
+      "LEDG00230"
+    ],
+    "bank_row_ids": [
+      "BANK00221",
+      "BANK00222"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "duplicate",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00190",
+    "order_id": "order_synth_190",
+    "ledger_row_ids": [
+      "LEDG00231"
+    ],
+    "bank_row_ids": [],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "missing",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00046",
+    "order_id": "order_synth_46",
+    "ledger_row_ids": [
+      "LEDG00232"
+    ],
+    "bank_row_ids": [
+      "BANK00223"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00147",
+    "order_id": "order_synth_147",
+    "ledger_row_ids": [
+      "LEDG00233"
+    ],
+    "bank_row_ids": [
+      "BANK00224"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00174",
+    "order_id": "order_synth_174",
+    "ledger_row_ids": [
+      "LEDG00234"
+    ],
+    "bank_row_ids": [
+      "BANK00225",
+      "BANK00226"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "duplicate",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00064",
+    "order_id": "order_synth_64",
+    "ledger_row_ids": [
+      "LEDG00235"
+    ],
+    "bank_row_ids": [
+      "BANK00227"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00077",
+    "order_id": "order_synth_77",
+    "ledger_row_ids": [
+      "LEDG00236"
+    ],
+    "bank_row_ids": [
+      "BANK00228"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00251",
+    "order_id": "order_synth_251",
+    "ledger_row_ids": [
+      "LEDG00237"
+    ],
+    "bank_row_ids": [
+      "BANK00229"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00121",
+    "order_id": "order_synth_121",
+    "ledger_row_ids": [
+      "LEDG00238"
+    ],
+    "bank_row_ids": [
+      "BANK00230",
+      "BANK00231"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "duplicate",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00033",
+    "order_id": "order_synth_33",
+    "ledger_row_ids": [
+      "LEDG00239"
+    ],
+    "bank_row_ids": [
+      "BANK00232"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00206",
+    "order_id": "order_synth_206",
+    "ledger_row_ids": [
+      "LEDG00240"
+    ],
+    "bank_row_ids": [
+      "BANK00233"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00217",
+    "order_id": "order_synth_217",
+    "ledger_row_ids": [
+      "LEDG00241"
+    ],
+    "bank_row_ids": [
+      "BANK00234"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00074",
+    "order_id": "order_synth_74",
+    "ledger_row_ids": [
+      "LEDG00242"
+    ],
+    "bank_row_ids": [
+      "BANK00235"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00037",
+    "order_id": "order_synth_37",
+    "ledger_row_ids": [
+      "LEDG00243"
+    ],
+    "bank_row_ids": [
+      "BANK00236"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00254",
+    "order_id": "order_synth_254",
+    "ledger_row_ids": [
+      "LEDG00244"
+    ],
+    "bank_row_ids": [],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "missing",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00047",
+    "order_id": "order_synth_47",
+    "ledger_row_ids": [
+      "LEDG00245"
+    ],
+    "bank_row_ids": [
+      "BANK00237"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00159",
+    "order_id": "order_synth_159",
+    "ledger_row_ids": [
+      "LEDG00246"
+    ],
+    "bank_row_ids": [
+      "BANK00238"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00050",
+    "order_id": "order_synth_50",
+    "ledger_row_ids": [
+      "LEDG00247",
+      "LEDG00248"
+    ],
+    "bank_row_ids": [
+      "BANK00239"
+    ],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00053",
+    "order_id": "order_synth_53",
+    "ledger_row_ids": [
+      "LEDG00249"
+    ],
+    "bank_row_ids": [
+      "BANK00240"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00020",
+    "order_id": "order_synth_20",
+    "ledger_row_ids": [
+      "LEDG00250"
+    ],
+    "bank_row_ids": [
+      "BANK00241"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00151",
+    "order_id": "order_synth_151",
+    "ledger_row_ids": [
+      "LEDG00251"
+    ],
+    "bank_row_ids": [],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "missing",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00204",
+    "order_id": "order_synth_204",
+    "ledger_row_ids": [
+      "LEDG00252"
+    ],
+    "bank_row_ids": [
+      "BANK00242"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00102",
+    "order_id": "order_synth_102",
+    "ledger_row_ids": [
+      "LEDG00253"
+    ],
+    "bank_row_ids": [
+      "BANK00243"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "timestamp_drift",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00222",
+    "order_id": "order_synth_222",
+    "ledger_row_ids": [
+      "LEDG00254"
+    ],
+    "bank_row_ids": [
+      "BANK00244"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00203",
+    "order_id": "order_synth_203",
+    "ledger_row_ids": [
+      "LEDG00255"
+    ],
+    "bank_row_ids": [
+      "BANK00245"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00228",
+    "order_id": "order_synth_228",
+    "ledger_row_ids": [
+      "LEDG00256"
+    ],
+    "bank_row_ids": [
+      "BANK00246"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00232",
+    "order_id": "order_synth_232",
+    "ledger_row_ids": [
+      "LEDG00257",
+      "LEDG00258"
+    ],
+    "bank_row_ids": [
+      "BANK00247"
+    ],
+    "ledger_mismatch": "duplicate",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00025",
+    "order_id": "order_synth_25",
+    "ledger_row_ids": [
+      "LEDG00259"
+    ],
+    "bank_row_ids": [
+      "BANK00248"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00149",
+    "order_id": "order_synth_149",
+    "ledger_row_ids": [
+      "LEDG00260"
+    ],
+    "bank_row_ids": [],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "missing",
+    "should_fully_reconcile": false
+  },
+  {
+    "txn_id": "TXN00223",
+    "order_id": "order_synth_223",
+    "ledger_row_ids": [
+      "LEDG00261"
+    ],
+    "bank_row_ids": [
+      "BANK00249"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00220",
+    "order_id": "order_synth_220",
+    "ledger_row_ids": [
+      "LEDG00262"
+    ],
+    "bank_row_ids": [
+      "BANK00250"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "rounding",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00007",
+    "order_id": "order_TFpSqW8glaSB9A",
+    "ledger_row_ids": [
+      "LEDG00263"
+    ],
+    "bank_row_ids": [
+      "BANK00251"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00006",
+    "order_id": "order_TFrlYsulgRLiTz",
+    "ledger_row_ids": [
+      "LEDG00264"
+    ],
+    "bank_row_ids": [
+      "BANK00252"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00003",
+    "order_id": "order_TFrnI97WsbzS4f",
+    "ledger_row_ids": [
+      "LEDG00265"
+    ],
+    "bank_row_ids": [
+      "BANK00253"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00004",
+    "order_id": "order_TFrnI97WsbzS4f",
+    "ledger_row_ids": [
+      "LEDG00266"
+    ],
+    "bank_row_ids": [
+      "BANK00254"
+    ],
+    "ledger_mismatch": "timestamp_drift",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00005",
+    "order_id": "order_TFrnI97WsbzS4f",
+    "ledger_row_ids": [
+      "LEDG00267"
+    ],
+    "bank_row_ids": [
+      "BANK00255"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00001",
+    "order_id": "order_TFsmd4RTeM9SZG",
+    "ledger_row_ids": [
+      "LEDG00268"
+    ],
+    "bank_row_ids": [
+      "BANK00256"
+    ],
+    "ledger_mismatch": "rounding",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  },
+  {
+    "txn_id": "TXN00002",
+    "order_id": "order_TFsmd4RTeM9SZG",
+    "ledger_row_ids": [
+      "LEDG00269"
+    ],
+    "bank_row_ids": [
+      "BANK00257"
+    ],
+    "ledger_mismatch": "exact",
+    "bank_mismatch": "exact",
+    "should_fully_reconcile": true
+  }
+]
