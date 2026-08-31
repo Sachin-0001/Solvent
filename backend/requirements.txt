@@ -12,3 +12,7 @@ psycopg2-binary
 sentence-transformers
 fastapi
 uvicorn[standard]
+
+# Analysis-only, not imported by the pipeline itself — used by
+# backend/forecaster/plot_diagnostics.py to generate docs/figures/*.png
+matplotlib
