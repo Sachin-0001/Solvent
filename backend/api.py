@@ -98,3 +98,116 @@ def qa(req: QARequest) -> dict[str, str]:
         raise HTTPException(status_code=400, detail="question must not be empty")
     records = load_settlement_records()
     return {"answer": answer_question(req.question, records)}
+
+
+# --- Additive, read-only endpoints below. Each is a thin wrapper over the
+# same db.load_*/validate_reconciliation calls the existing endpoints and CLI
+# entry points use — no business logic here, nothing above this line changed.
+
+
+@app.get("/api/pipeline/status")
+def pipeline_status() -> dict[str, Any]:
+    base_transactions = db.load_base_transactions()
+    source_counts: dict[str, int] = {}
+    for t in base_transactions:
+        source_counts[t["source"]] = source_counts.get(t["source"], 0) + 1
+
+    matches = db.load_reconciliation_matches()
+    exceptions = db.load_reconciliation_exceptions()
+    recon_metrics = validate_reconciliation(matches, exceptions)
+
+    classifications = db.load_tax_classifications()
+    category_counts: dict[str, int] = {}
+    for c in classifications:
+        category_counts[c["category"]] = category_counts.get(c["category"], 0) + 1
+
+    model_a = db.load_forecaster_metrics("model_a")
+    model_b = db.load_forecaster_metrics("model_b")
+
+    embeddings = db.load_record_embeddings()
+
+    return {
+        "ingest": {
+            "total_transactions": len(base_transactions),
+            "source_counts": source_counts,
+            "ledger_rows": len(db.load_ledger_rows()),
+            "bank_rows": len(db.load_bank_rows()),
+            "gate": "passed" if base_transactions else "pending",
+        },
+        "reconcile": {
+            **recon_metrics,
+            "gate": "passed" if matches or exceptions else "pending",
+        },
+        "classify": {
+            "total": len(classifications),
+            "category_counts": category_counts,
+            "resolved_by_rules": sum(1 for c in classifications if c["method"] == "rule"),
+            "resolved_by_llm": sum(1 for c in classifications if c["method"] == "llm"),
+            "gate": "passed" if classifications else "pending",
+        },
+        "forecast": {
+            "model_a": model_a,
+            "model_b": model_b,
+            "gate": "passed" if model_a and model_b else "pending",
+        },
+        "qa": {
+            "indexed_records": len(embeddings),
+            "gate": "passed" if embeddings else "pending",
+        },
+    }
+
+
+# Tolerance bands used by each match tier, surfaced for the reconciliation UI
+# (kept in sync by hand with exact_match.py / fuzzy_match.py — these are
+# display-only constants, not re-imported to avoid coupling the API layer to
+# matcher internals).
+_TIER_TOLERANCES = {
+    "exact": {"amount_abs": 5.0, "amount_pct": 0.015, "timestamp_hours": 6},
+    "fuzzy": {"amount_abs": 30.0, "amount_pct": 0.08, "timestamp_hours": 96},
+}
+
+
+@app.get("/api/reconciliation/matches")
+def reconciliation_matches(
+    tier: str | None = None, sort: str | None = None, limit: int = 50
+) -> dict[str, Any]:
+    matches = db.load_reconciliation_matches()
+    ledger_by_id = {r["row_id"]: r for r in db.load_ledger_rows()}
+    bank_by_id = {r["row_id"]: r for r in db.load_bank_rows()}
+
+    if tier:
+        matches = [m for m in matches if m["tier"] == tier]
+    if sort == "drift":
+        matches = sorted(matches, key=lambda m: abs(m["amount_diff"]), reverse=True)
+
+    total = len(matches)
+    items = []
+    for m in matches[:limit]:
+        ledger = ledger_by_id.get(m["ledger_row_id"])
+        bank = bank_by_id.get(m["bank_row_id"])
+        items.append(
+            {
+                **m,
+                "ledger": ledger,
+                "bank": bank,
+                "tolerance": _TIER_TOLERANCES.get(m["tier"]),
+            }
+        )
+
+    return {"total": total, "items": items}
+
+
+@app.get("/api/forecaster/metrics")
+def forecaster_metrics() -> dict[str, Any]:
+    return {
+        "model_a": db.load_forecaster_metrics("model_a"),
+        "model_b": db.load_forecaster_metrics("model_b"),
+    }
+
+
+@app.get("/api/tax/classifications")
+def tax_classifications_endpoint(category: str | None = None, limit: int = 50) -> dict[str, Any]:
+    classifications = db.load_tax_classifications()
+    if category:
+        classifications = [c for c in classifications if c["category"] == category]
+    return {"total": len(classifications), "items": classifications[:limit]}
