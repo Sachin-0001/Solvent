@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AskRail } from "@/components/AskRail";
+import { AskWidget } from "@/components/AskWidget";
 import { ExceptionLedger } from "@/components/ExceptionLedger";
 import { ForecastPanel } from "@/components/ForecastPanel";
 import { Header } from "@/components/Header";
@@ -31,6 +31,7 @@ export default function DashboardPage() {
   const [healthy, setHealthy] = useState<boolean | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [askOpen, setAskOpen] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -71,43 +72,61 @@ export default function DashboardPage() {
     };
   }, []);
 
+  useEffect(() => {
+    function onKeydown(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setAskOpen(true);
+      }
+    }
+    window.addEventListener("keydown", onKeydown);
+    return () => window.removeEventListener("keydown", onKeydown);
+  }, []);
+
   return (
     <div className="mx-auto max-w-[1600px]">
       <Header
         lastUpdated={lastUpdated}
         healthy={healthy}
         sourceCounts={status?.ingest.source_counts ?? null}
+        onOpenAsk={() => setAskOpen(true)}
       />
 
       <PipelineRail status={status} />
 
-      <main className="grid grid-cols-1 gap-4 px-6 py-5 lg:grid-cols-[1fr_320px]">
-        <div className="space-y-4">
-          {error && (
-            <div className="border border-accent-red/30 bg-accent-red-dim px-4 py-3 text-sm text-accent-red">
-              {error}
-            </div>
-          )}
+      <main className="space-y-4 px-6 py-5">
+        {error && (
+          <div className="border border-accent-red/30 bg-accent-red-dim px-4 py-3 text-sm text-accent-red">
+            {error}
+          </div>
+        )}
 
+        <div id="reconciliation" className="scroll-mt-20">
           <ResolutionWaterfall summary={summary} />
+        </div>
+        <div id="ledger-bank" className="scroll-mt-20">
           <LedgerBankPairs />
+        </div>
+        <div id="exceptions" className="scroll-mt-20">
           <ExceptionLedger exceptions={exceptions} />
+        </div>
+        <div id="forecast" className="scroll-mt-20">
           <ForecastPanel
             days={forecast?.days ?? []}
             referenceDate={forecast?.reference_date}
             modelMetrics={forecasterMetrics}
           />
-          <TaxLedger summary={taxSummary} />
         </div>
-
-        <div className="lg:sticky lg:top-[140px] lg:h-[calc(100vh-160px)]">
-          <AskRail />
+        <div id="tax" className="scroll-mt-20">
+          <TaxLedger summary={taxSummary} />
         </div>
       </main>
 
-      <footer className="border-t border-rule px-6 py-5 text-center text-[11px] text-fg-faint">
+      <footer className="border-t border-rule px-6 py-5 text-center text-xs text-fg-faint">
         Solvent — AI finance-controller pipeline · Razorpay AI Buildathon Track 04
       </footer>
+
+      <AskWidget open={askOpen} onClose={() => setAskOpen(false)} />
     </div>
   );
 }
