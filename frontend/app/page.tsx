@@ -1,15 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ChatPanel } from "@/components/ChatPanel";
-import { ExceptionList } from "@/components/ExceptionList";
-import { ForecastChart } from "@/components/ForecastChart";
+import { AskRail } from "@/components/AskRail";
+import { ExceptionLedger } from "@/components/ExceptionLedger";
+import { ForecastPanel } from "@/components/ForecastPanel";
 import { Header } from "@/components/Header";
-import { KpiCard } from "@/components/KpiCard";
-import { TaxBreakdown } from "@/components/TaxBreakdown";
+import { LedgerBankPairs } from "@/components/LedgerBankPairs";
+import { PipelineRail } from "@/components/PipelineRail";
+import { ResolutionWaterfall } from "@/components/ResolutionWaterfall";
+import { TaxLedger } from "@/components/TaxLedger";
 import {
   api,
   type ForecastResponse,
+  type ForecasterMetrics,
+  type PipelineStatus,
   type ReconciliationException,
   type ReconciliationSummary,
   type TaxSummary,
@@ -18,10 +22,13 @@ import {
 const POLL_INTERVAL_MS = 10_000;
 
 export default function DashboardPage() {
+  const [status, setStatus] = useState<PipelineStatus | null>(null);
   const [summary, setSummary] = useState<ReconciliationSummary | null>(null);
   const [exceptions, setExceptions] = useState<ReconciliationException[]>([]);
   const [taxSummary, setTaxSummary] = useState<TaxSummary | null>(null);
   const [forecast, setForecast] = useState<ForecastResponse | null>(null);
+  const [forecasterMetrics, setForecasterMetrics] = useState<ForecasterMetrics | null>(null);
+  const [healthy, setHealthy] = useState<boolean | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,21 +37,29 @@ export default function DashboardPage() {
 
     async function load() {
       try {
-        const [s, e, t, f] = await Promise.all([
+        const [p, s, e, t, f, fm] = await Promise.all([
+          api.pipelineStatus(),
           api.reconciliationSummary(),
           api.reconciliationExceptions(),
           api.taxSummary(),
           api.forecast(),
+          api.forecasterMetrics(),
         ]);
         if (cancelled) return;
+        setStatus(p);
         setSummary(s);
         setExceptions(e);
         setTaxSummary(t);
         setForecast(f);
+        setForecasterMetrics(fm);
+        setHealthy(true);
         setLastUpdated(new Date());
         setError(null);
       } catch {
-        if (!cancelled) setError("Can't reach the Solvent API — is uvicorn running on :8000?");
+        if (!cancelled) {
+          setHealthy(false);
+          setError("Can't reach the Solvent API — is uvicorn running on :8000?");
+        }
       }
     }
 
@@ -57,61 +72,40 @@ export default function DashboardPage() {
   }, []);
 
   return (
-    <div className="mx-auto max-w-7xl">
-      <Header lastUpdated={lastUpdated} />
+    <div className="mx-auto max-w-[1600px]">
+      <Header
+        lastUpdated={lastUpdated}
+        healthy={healthy}
+        sourceCounts={status?.ingest.source_counts ?? null}
+      />
 
-      <main className="space-y-6 px-8 py-6">
-        {error && (
-          <div className="rounded-lg border border-accent-red/30 bg-accent-red/10 px-4 py-3 text-sm text-accent-red">
-            {error}
-          </div>
-        )}
+      <PipelineRail status={status} />
 
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          <KpiCard
-            label="Match Rate"
-            value={summary ? `${(summary.match_rate * 100).toFixed(1)}` : "—"}
-            suffix="%"
-            accent="green"
-            sublabel={summary ? `${summary.reported_matches}/${summary.total_ground_truth_txns} txns` : undefined}
+      <main className="grid grid-cols-1 gap-4 px-6 py-5 lg:grid-cols-[1fr_320px]">
+        <div className="space-y-4">
+          {error && (
+            <div className="border border-accent-red/30 bg-accent-red-dim px-4 py-3 text-sm text-accent-red">
+              {error}
+            </div>
+          )}
+
+          <ResolutionWaterfall summary={summary} />
+          <LedgerBankPairs />
+          <ExceptionLedger exceptions={exceptions} />
+          <ForecastPanel
+            days={forecast?.days ?? []}
+            referenceDate={forecast?.reference_date}
+            modelMetrics={forecasterMetrics}
           />
-          <KpiCard
-            label="Precision"
-            value={summary ? `${(summary.precision * 100).toFixed(1)}` : "—"}
-            suffix="%"
-            accent="blue"
-            sublabel={summary ? `${summary.false_positives} false positives` : undefined}
-          />
-          <KpiCard
-            label="Recall"
-            value={summary ? `${(summary.recall * 100).toFixed(1)}` : "—"}
-            suffix="%"
-            accent="blue"
-            sublabel={summary ? `${summary.false_negatives} false negatives` : undefined}
-          />
-          <KpiCard
-            label="Exceptions"
-            value={summary ? `${summary.exception_count}` : "—"}
-            accent={summary && summary.exception_count > 0 ? "amber" : "green"}
-            sublabel="honest, reasoned, not hidden"
-          />
+          <TaxLedger summary={taxSummary} />
         </div>
 
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            {forecast && (
-              <ForecastChart days={forecast.days} referenceDate={forecast.reference_date} />
-            )}
-          </div>
-          <div>{taxSummary && <TaxBreakdown summary={taxSummary} />}</div>
+        <div className="lg:sticky lg:top-[140px] lg:h-[calc(100vh-160px)]">
+          <AskRail />
         </div>
-
-        <ExceptionList exceptions={exceptions} />
-
-        <ChatPanel />
       </main>
 
-      <footer className="px-8 py-6 text-center text-[11px] text-fg-faint">
+      <footer className="border-t border-rule px-6 py-5 text-center text-[11px] text-fg-faint">
         Solvent — AI finance-controller pipeline · Razorpay AI Buildathon Track 04
       </footer>
     </div>
