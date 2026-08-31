@@ -45,7 +45,7 @@ export function LedgerBankPairs() {
                 key={f.label}
                 onClick={() => setTier(f.value)}
                 className={cn(
-                  "rounded-sm border px-2 py-1 text-[11px] transition-colors",
+                  "rounded-sm border px-2 py-1 text-xs transition-colors",
                   tier === f.value
                     ? "border-accent-green/40 text-accent-green"
                     : "border-border-strong text-fg-muted hover:text-fg"
@@ -57,7 +57,7 @@ export function LedgerBankPairs() {
             <button
               onClick={() => setSortDrift((v) => !v)}
               className={cn(
-                "rounded-sm border px-2 py-1 text-[11px] transition-colors",
+                "rounded-sm border px-2 py-1 text-xs transition-colors",
                 sortDrift
                   ? "border-accent-amber/40 text-accent-amber"
                   : "border-border-strong text-fg-muted hover:text-fg"
@@ -80,14 +80,14 @@ export function LedgerBankPairs() {
                 {m.ledger?.row_id ?? "—"} · {m.ledger ? formatINRFull(m.ledger.amount) : "—"}
               </div>
               {m.ledger && (
-                <div className="mt-0.5 truncate text-[11px] text-fg-faint" title={m.ledger.narration ?? undefined}>
+                <div className="mt-0.5 truncate text-xs text-fg-faint" title={m.ledger.narration ?? undefined}>
                   {m.ledger.narration}
                   {m.ledger.fee_amount ? ` · fee ${m.ledger.fee_amount.toFixed(2)}` : ""}
                   {m.ledger.tax_on_fee ? ` + gst ${m.ledger.tax_on_fee.toFixed(2)}` : ""}
                 </div>
               )}
             </div>
-            <div className="flex flex-col items-center gap-1 text-[11px]">
+            <div className="flex flex-col items-center gap-1 text-xs">
               <TierBadge tier={m.tier} />
               <span className={cn("figure", Math.abs(m.amount_diff) < 0.01 ? "text-fg-faint" : "text-accent-amber")}>
                 Δ {formatDrift(m.amount_diff)}
@@ -99,7 +99,7 @@ export function LedgerBankPairs() {
                 {m.bank ? formatINRFull(m.bank.amount) : "—"} · {m.bank?.row_id ?? "—"}
               </div>
               {m.bank && (
-                <div className="mt-0.5 truncate text-[11px] text-fg-faint" title={m.bank.narration ?? undefined}>
+                <div className="mt-0.5 truncate text-xs text-fg-faint" title={m.bank.narration ?? undefined}>
                   {m.bank.narration}
                 </div>
               )}

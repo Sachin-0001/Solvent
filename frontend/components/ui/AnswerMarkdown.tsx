@@ -11,7 +11,7 @@ import { cn } from "@/lib/cn";
  */
 export function AnswerMarkdown({ content }: { content: string }) {
   return (
-    <div className="space-y-2 text-xs leading-relaxed text-fg [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+    <div className="space-y-2 text-[13px] leading-relaxed text-fg [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
@@ -27,7 +27,7 @@ export function AnswerMarkdown({ content }: { content: string }) {
           li: ({ children }) => <li className="pl-0.5">{children}</li>,
           hr: () => <hr className="my-2.5 border-rule" />,
           code: ({ children }) => (
-            <code className="figure rounded-sm bg-bg-elevated px-1 py-0.5 text-[11px] text-accent-green">
+            <code className="figure rounded-sm bg-bg-elevated px-1 py-0.5 text-xs text-accent-green">
               {children}
             </code>
           ),
@@ -46,7 +46,7 @@ export function AnswerMarkdown({ content }: { content: string }) {
           ),
           table: ({ children }) => (
             <div className="my-2 overflow-x-auto rounded-sm border border-rule">
-              <table className="w-full border-collapse text-[11px]">{children}</table>
+              <table className="w-full border-collapse text-xs">{children}</table>
             </div>
           ),
           thead: ({ children }) => <thead className="bg-bg-elevated">{children}</thead>,

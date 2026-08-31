@@ -16,13 +16,13 @@ export function PanelHeader({
 }) {
   return (
     <div className="flex items-center justify-between border-b border-rule px-5 py-3.5">
-      <div className="text-[11px] font-medium uppercase tracking-wider text-fg-muted">
+      <div className="text-xs font-medium uppercase tracking-wider text-fg-muted">
         {title}
         {count !== undefined && (
           <span className="figure ml-2 text-fg-faint">{count.toLocaleString("en-IN")}</span>
         )}
       </div>
-      {right && <div className="text-[11px] text-fg-faint">{right}</div>}
+      {right && <div className="text-xs text-fg-faint">{right}</div>}
     </div>
   );
 }

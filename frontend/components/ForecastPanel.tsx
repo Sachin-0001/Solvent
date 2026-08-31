@@ -37,7 +37,7 @@ function CustomTooltip({
       <div className="figure mt-1 text-sm font-semibold text-accent-green">
         {formatINR(day.expected_amount)}
       </div>
-      <div className="figure text-[11px] text-fg-faint">
+      <div className="figure text-xs text-fg-faint">
         {formatINR(day.lower_bound)} – {formatINR(day.upper_bound)}
       </div>
     </div>
@@ -55,7 +55,7 @@ function ModelStat({
 }) {
   if (!metrics) return null;
   return (
-    <div className="flex items-baseline gap-1.5 text-[11px]">
+    <div className="flex items-baseline gap-1.5 text-xs">
       <span className="text-fg-muted">{name}</span>
       <span className="text-fg-faint">{metrics.chosen_model}</span>
       <span className="figure text-fg">MAE {metrics.chosen_mae}</span>
@@ -93,7 +93,7 @@ export function ForecastPanel({
       />
       <div className="px-5 pt-4">
         <div className="figure text-2xl font-semibold text-fg">{formatINR(total)}</div>
-        <div className="mt-0.5 text-[11px] text-fg-faint">
+        <div className="mt-0.5 text-xs text-fg-faint">
           expected net settlement · dashed lines = ± held-out MAE
         </div>
       </div>
@@ -110,13 +110,13 @@ export function ForecastPanel({
             <XAxis
               dataKey="date"
               tickFormatter={formatDate}
-              tick={{ fill: "var(--fg-muted)", fontSize: 11 }}
+              tick={{ fill: "var(--fg-muted)", fontSize: 12 }}
               axisLine={{ stroke: "var(--rule-strong)" }}
               tickLine={false}
             />
             <YAxis
               tickFormatter={formatINR}
-              tick={{ fill: "var(--fg-muted)", fontSize: 11 }}
+              tick={{ fill: "var(--fg-muted)", fontSize: 12 }}
               axisLine={false}
               tickLine={false}
               width={56}

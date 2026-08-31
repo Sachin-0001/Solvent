@@ -60,7 +60,7 @@ export function TaxLedger({ summary }: { summary: TaxSummary | null }) {
                 onClick={() => toggle(category)}
                 className="w-full py-2 text-left"
               >
-                <div className="mb-1 flex items-center justify-between text-xs">
+                <div className="mb-1 flex items-center justify-between text-[13px]">
                   <span className={cn("text-fg-muted", isOpen && "text-fg")}>{meta.label}</span>
                   <span className="figure text-fg">
                     {count} <span className="text-fg-faint">({pct.toFixed(0)}%)</span>
@@ -75,10 +75,10 @@ export function TaxLedger({ summary }: { summary: TaxSummary | null }) {
               </button>
               {isOpen && (
                 <div className="mb-2 space-y-1.5 border-l border-rule pl-3">
-                  {loading && <div className="text-[11px] text-fg-faint">loading…</div>}
+                  {loading && <div className="text-xs text-fg-faint">loading…</div>}
                   {!loading &&
                     rows?.map((r) => (
-                      <div key={r.txn_id} className="text-[11px]">
+                      <div key={r.txn_id} className="text-[13px]">
                         <span className="figure text-fg-muted">{r.txn_id}</span>{" "}
                         <span className="text-fg-faint">{r.reasoning}</span>
                       </div>

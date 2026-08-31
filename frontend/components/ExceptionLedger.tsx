@@ -40,7 +40,7 @@ export function ExceptionLedger({ exceptions }: { exceptions: ReconciliationExce
         <button
           onClick={() => setReasonFilter(null)}
           className={cn(
-            "rounded-sm border px-2 py-1 text-[11px] transition-colors",
+            "rounded-sm border px-2 py-1 text-xs transition-colors",
             reasonFilter === null
               ? "border-accent-green/40 text-accent-green"
               : "border-border-strong text-fg-muted hover:text-fg"
@@ -67,7 +67,7 @@ export function ExceptionLedger({ exceptions }: { exceptions: ReconciliationExce
         ) : (
           <table className="w-full text-left text-sm">
             <thead className="sticky top-0 bg-card">
-              <tr className="text-[11px] uppercase tracking-wider text-fg-faint">
+              <tr className="text-xs uppercase tracking-wider text-fg-faint">
                 <th className="px-5 py-2 font-medium">Side</th>
                 <th className="px-2 py-2 font-medium">Row</th>
                 <th className="px-2 py-2 font-medium">Order</th>
@@ -83,12 +83,12 @@ export function ExceptionLedger({ exceptions }: { exceptions: ReconciliationExce
                     <td className="px-5 py-2.5">
                       <SideMarker side={e.side} />
                     </td>
-                    <td className="figure px-2 py-2.5 text-xs text-fg">{e.row_id}</td>
-                    <td className="figure px-2 py-2.5 text-xs text-fg-muted">{e.order_id ?? "—"}</td>
+                    <td className="figure px-2 py-2.5 text-[13px] text-fg">{e.row_id}</td>
+                    <td className="figure px-2 py-2.5 text-[13px] text-fg-muted">{e.order_id ?? "—"}</td>
                     <td className="px-2 py-2.5">
                       <Badge tone={meta.tone}>{meta.label}</Badge>
                     </td>
-                    <td className="px-5 py-2.5 text-xs text-fg-muted">{e.explanation}</td>
+                    <td className="px-5 py-2.5 text-[13px] text-fg-muted">{e.explanation}</td>
                   </tr>
                 );
               })}

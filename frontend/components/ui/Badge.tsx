@@ -22,7 +22,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center whitespace-nowrap rounded-full border px-2 py-0.5 text-[11px]",
+        "inline-flex items-center whitespace-nowrap rounded-full border px-2 py-0.5 text-xs",
         toneClasses[tone],
         className
       )}
@@ -42,7 +42,7 @@ export function SideMarker({ side }: { side: string }) {
   const letter = side === "ledger" ? "L" : side === "bank" ? "B" : side.slice(0, 1).toUpperCase();
   return (
     <span
-      className="figure inline-flex h-5 w-5 items-center justify-center rounded border border-border-strong text-[10px] text-fg-muted"
+      className="figure inline-flex h-5 w-5 items-center justify-center rounded border border-border-strong text-[11px] text-fg-muted"
       title={side}
     >
       {letter}
@@ -52,7 +52,7 @@ export function SideMarker({ side }: { side: string }) {
 
 export function GateMark({ gate }: { gate: "passed" | "pending" }) {
   return (
-    <span className="inline-flex items-center gap-1 text-[11px] uppercase tracking-wider">
+    <span className="inline-flex items-center gap-1 text-xs uppercase tracking-wider">
       <span
         className={cn(
           "h-1.5 w-1.5 rounded-full",

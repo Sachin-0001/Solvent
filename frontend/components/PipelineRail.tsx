@@ -63,17 +63,17 @@ export function PipelineRail({ status }: { status: PipelineStatus | null }) {
           const stage = stages?.[i];
           return (
             <div key={name} className="flex items-stretch">
-              <div className="flex w-56 flex-col items-center justify-center gap-1 px-5 py-4 text-center">
+              <div className="flex w-64 flex-col items-center justify-center gap-1 px-5 py-4 text-center">
                 <div className="flex items-center justify-center gap-2">
-                  <span className="text-[11px] font-medium uppercase tracking-wider text-fg-muted">
+                  <span className="text-xs font-medium uppercase tracking-wider text-fg-muted">
                     {i + 1}. {name}
                   </span>
                   {stage && <GateMark gate={stage.gate} />}
                 </div>
-                <div className="figure text-xl font-semibold text-fg">
+                <div className="figure text-2xl font-semibold text-fg">
                   {stage ? stage.headline : "—"}
                 </div>
-                <div className="text-[11px] text-fg-faint">
+                <div className="text-xs text-fg-faint">
                   {stage ? stage.detail : "loading…"}
                 </div>
               </div>
