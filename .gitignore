@@ -9,6 +9,8 @@ backend/data/processed/*
 !backend/data/processed/.gitkeep
 backend/forecaster/models/*.pkl
 backend/forecaster/models/*.joblib
+ML/notebooks/artifacts/
+.ipynb_checkpoints/
 node_modules/
 .next/
 *.log
