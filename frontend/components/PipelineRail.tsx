@@ -63,8 +63,8 @@ export function PipelineRail({ status }: { status: PipelineStatus | null }) {
           const stage = stages?.[i];
           return (
             <div key={name} className="flex items-stretch">
-              <div className="flex w-56 flex-col justify-center gap-1 px-5 py-4">
-                <div className="flex items-center justify-between">
+              <div className="flex w-56 flex-col items-center justify-center gap-1 px-5 py-4 text-center">
+                <div className="flex items-center justify-center gap-2">
                   <span className="text-[11px] font-medium uppercase tracking-wider text-fg-muted">
                     {i + 1}. {name}
                   </span>

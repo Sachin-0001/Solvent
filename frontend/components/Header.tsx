@@ -20,16 +20,16 @@ export function Header({
         </div>
         <div>
           <div className="text-sm font-semibold tracking-tight text-fg">Solvent</div>
-          <div className="text-[10px] text-fg-faint">AI Finance-Controller Pipeline</div>
+          <div className="text-[11px] text-fg-faint">AI Finance-Controller Pipeline</div>
         </div>
         {sourceCounts && (
-          <span className="figure ml-2 hidden rounded-sm border border-border-strong px-2 py-1 text-[10px] text-fg-muted sm:inline-block">
+          <span className="figure ml-2 hidden rounded-sm border border-border-strong px-2 py-1 text-[11px] text-fg-muted sm:inline-block">
             {real} live Razorpay · {synthetic} synthetic
           </span>
         )}
       </div>
       <div className="flex items-center gap-4 text-xs text-fg-muted">
-        <span className="hidden rounded-sm border border-border-strong px-1.5 py-0.5 font-mono text-[10px] text-fg-faint md:inline-block">
+        <span className="hidden rounded-sm border border-border-strong px-1.5 py-0.5 font-mono text-[11px] text-fg-faint md:inline-block">
           ⌘K ask
         </span>
         <div className="flex items-center gap-2">

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Terminal } from "lucide-react";
 import { api } from "@/lib/api";
+import { AnswerMarkdown } from "@/components/ui/AnswerMarkdown";
 
 interface Message {
   role: "user" | "assistant";
@@ -88,7 +89,9 @@ export function AskRail() {
                 <span className="text-accent-green">{">"}</span> {m.content}
               </div>
             ) : (
-              <div className="mt-1 border-l border-rule pl-2.5 text-fg">{m.content}</div>
+              <div className="mt-1 border-l border-rule pl-2.5">
+                <AnswerMarkdown content={m.content} />
+              </div>
             )}
           </div>
         ))}

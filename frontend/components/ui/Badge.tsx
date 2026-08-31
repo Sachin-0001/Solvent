@@ -52,7 +52,7 @@ export function SideMarker({ side }: { side: string }) {
 
 export function GateMark({ gate }: { gate: "passed" | "pending" }) {
   return (
-    <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider">
+    <span className="inline-flex items-center gap-1 text-[11px] uppercase tracking-wider">
       <span
         className={cn(
           "h-1.5 w-1.5 rounded-full",
