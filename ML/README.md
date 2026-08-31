@@ -15,12 +15,43 @@ instance.
 ```
 ML/
   data/
-    base_transactions.csv       # flat export of the base_transactions table (257 rows)
+    base_transactions.csv       # base_transactions export, expanded with extra synthetic rows (see below)
   notebooks/
     model_a_days_to_settle_training.ipynb   # Model A: predicts settlement lag
     model_b_deduction_pct_training.ipynb    # Model B: predicts deduction fraction
     artifacts/                  # notebook's own .joblib output (gitignored, not the canonical one)
 ```
+
+## `base_transactions.csv` — data volume
+
+The first **257 rows** (7 `razorpay_real` + 250 `synthetic`) are the exact
+pipeline export the two notebooks were originally validated against, and are
+what `docs/metrics.md` and `docs/forecaster_diagnostics.md` report numbers
+for.
+
+The remaining **2,000 rows** (all `source=synthetic`, `txn_id` continuing
+from `TXN00258`) were generated afterward, on request, for anyone who wants
+more volume to train on — **not scraped or fabricated ad hoc**: they're
+produced by calling the project's own
+`backend.ingestion.synthetic_data_generator.generate_base_transactions()`
+with a different seed (`20260831` vs. the original ingestion run's `42`) and
+the same `start_date`/`end_date` window, so they follow the identical
+generative model as the original 250 synthetic rows — same payment-method
+mix, same fee-percent-by-method table, same weekend/holiday/dispute
+settlement-lag logic, same `deduction_pct` construction from
+fee+GST+refund. Spot-checked against the original 257: payment-method
+shares, `txn_amount` range, `days_to_settle` distribution, refund/dispute
+rates, and the `corr(deduction_pct, had_refund) ≈ 0.95` relationship all
+hold within noise across the full 2,257 rows. No `txn_id` collisions with
+the original rows; the only duplicate `order_id`s in the file are two
+pre-existing real Razorpay orders with multiple payment attempts (rows 1-5),
+not anything introduced by the added rows.
+
+**This means re-running the notebooks against the current (2,257-row) CSV
+will *not* reproduce `docs/metrics.md`'s exact numbers** — that's expected;
+those numbers were validated on the original 257-row pipeline output. New
+numbers from the larger dataset are a legitimate, separate result, not a
+discrepancy to chase.
 
 ## Running
 
@@ -30,10 +61,17 @@ pip install jupyter ipykernel   # only needed to open/execute the notebooks inte
 jupyter notebook ML/notebooks/
 ```
 
-Both notebooks are already executed in place — opening one in GitHub or
-Jupyter shows real output (printed metrics, plots) from the last run, not
-empty cells. Re-run them any time after regenerating
-`ML/data/base_transactions.csv` from a fresh pipeline run:
+Both notebooks are committed **already executed against the original
+257-row file** — the printed metrics/plots baked into them right now are
+the 257-row numbers that match `docs/metrics.md` exactly. Re-running either
+notebook's cells top to bottom will re-fit against whatever is currently in
+`ML/data/base_transactions.csv` — i.e. all 2,257 rows, once the additional
+synthetic rows described above are present — and produce new numbers from
+the larger set.
+
+To go back to a from-scratch, Postgres-sourced 257-row export instead of
+the checked-in CSV (e.g. after re-running the pipeline with different
+synthetic data):
 
 ```bash
 python -c "
@@ -49,12 +87,11 @@ pd.DataFrame(rows)[cols].to_csv('ML/data/base_transactions.csv', index=False)
 "
 ```
 
-The row order in that CSV matters: it preserves Postgres's default read
-order (not sorted by `txn_id`), because `train_test_split`'s row-to-split
-assignment depends on input order for a fixed `random_state`. With that
-order preserved, both notebooks reproduce `docs/metrics.md`'s numbers
-exactly (Model A: MAE 0.5951 / MAPE 30.3%; Model B: MAE 0.0316 / MAPE
-126.83%) rather than just approximately.
+Row order matters if you want a fresh export to reproduce
+`docs/metrics.md`'s exact numbers: `train_test_split`'s row-to-split
+assignment depends on input row order for a fixed `random_state`, and the
+command above preserves Postgres's default read order (not sorted by
+`txn_id`) for exactly that reason.
 
 See [`../docs/metrics.md`](../docs/metrics.md) and
 [`../docs/forecaster_diagnostics.md`](../docs/forecaster_diagnostics.md) for
