@@ -98,6 +98,12 @@ python -m backend.forecaster.plot_diagnostics
 - [`docs/forecaster_diagnostics.md`](docs/forecaster_diagnostics.md) — learning
   curves, predicted-vs-actual, and residual plots for both trained models,
   plus the root-cause analysis of *why* Model B's MAPE is high.
+- [`ML/notebooks/`](ML/notebooks/) — the same two training runs as executable,
+  already-run Jupyter notebooks (with [`ML/data/base_transactions.csv`](ML/data/base_transactions.csv)
+  as a standalone, Postgres-free training set) for anyone who'd rather step
+  through the training run cell-by-cell than read the pipeline script. See
+  [`ML/README.md`](ML/README.md) for how these relate to the canonical
+  `backend/forecaster/train.py`.
 
 Headline numbers (see the linked docs for full detail and honest caveats):
 
@@ -242,6 +248,9 @@ Solvent/
     metrics.md            # reconciliation + forecaster validation numbers
     forecaster_diagnostics.md  # learning curves, residuals, root-cause analysis
     figures/               # generated plots + dashboard screenshot
+  ML/
+    data/                 # standalone CSV export of base_transactions
+    notebooks/            # executable, already-run notebooks for Model A/B
   CLAUDE.md               # full architecture contract
   .env.example
 ```
