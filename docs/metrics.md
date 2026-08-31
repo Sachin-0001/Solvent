@@ -58,3 +58,10 @@ absolute error becomes a huge percentage error when the denominator is close
 to zero. This is reported as-is per the "no hidden exceptions" rule; the
 dashboard's forecast panel surfaces both numbers (Model B's MAPE flagged)
 rather than only the more flattering MAE.
+
+**See [`forecaster_diagnostics.md`](forecaster_diagnostics.md)** for learning
+curves, predicted-vs-actual, and residual plots for both models, plus the
+root-cause analysis of *why* Model B's MAPE is high (short version:
+`deduction_pct` is bimodal — driven 0.95-correlated by `had_refund` — and a
+single linear model can't fully capture the variance within the refunded
+group).
