@@ -31,12 +31,30 @@ correct, and every should-reconcile pair got found.
 **LLM tier resolved 0 of the 257** — exact and fuzzy match, given the ledger's
 own fee/GST/refund figures, handled the entire reconcilable set numerically.
 This is intentional per the "minimize LLM calls" rule; the LLM tier exists for
-harder real-world cases (see note below) and is exercised here purely for the
-*exception reasoning* on the 54 unresolved rows (50 correctly labeled
-"missing_counterpart", 3 "likely_duplicate", 1 "unexplained" — see
-conversation for the one minor inconsistent label between two symmetric
-duplicate rows).
+harder real-world cases and is exercised here purely for the *exception
+reasoning* on the 54 unresolved rows. The reason-label breakdown depends on
+the LLM's live output for that run (e.g. `missing_counterpart` /
+`likely_duplicate` / `unexplained` when the LLM call doesn't return a
+confident resolution) — check `/api/reconciliation/exceptions` or the
+dashboard's Exception Ledger for the current run's actual split rather than a
+number recorded here, since it can vary between reconciliation runs.
 
 ## Stage 4: Forecaster
 
-_Not yet run — will be filled in after Model A / Model B validation._
+Run: `python -m backend.forecaster.train`
+Both models are plain scikit-learn `LinearRegression` on tabular features
+(no polynomial curvature detected for either target), validated on a held-out
+split of the 257-transaction dataset (`n_train=205, n_test=52`).
+
+| Model | Target | MAE | MAPE | Model |
+|---|---|---|---|---|
+| A | `days_to_settle` | 0.5951 days | 30.3% | linear |
+| B | `deduction_pct` | 0.0316 | 126.83% | linear |
+
+**Model B's MAPE (126.83%) is the honest weak spot in the pipeline.** MAE is
+low in absolute terms (±0.0316 of a 0-1 deduction fraction), but MAPE blows up
+because many transactions have a near-zero true `deduction_pct` — a small
+absolute error becomes a huge percentage error when the denominator is close
+to zero. This is reported as-is per the "no hidden exceptions" rule; the
+dashboard's forecast panel surfaces both numbers (Model B's MAPE flagged)
+rather than only the more flattering MAE.
