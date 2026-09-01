@@ -7,7 +7,8 @@ backend/data/raw/*
 backend/data/processed/*
 !backend/data/raw/.gitkeep
 !backend/data/processed/.gitkeep
-ML/notebooks/artifacts/
+ML/notebooks/artifacts/*
+!ML/notebooks/artifacts/*.joblib
 .ipynb_checkpoints/
 node_modules/
 .next/
