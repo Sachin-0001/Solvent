@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} h-full`}>
-      <body className="min-h-full bg-[var(--bg)] text-[var(--fg)] antialiased">{children}</body>
+      <body className="min-h-full bg-[var(--bg)] text-[var(--fg)] antialiased" suppressHydrationWarning>{children}</body>
     </html>
   );
 }
