@@ -16,6 +16,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from backend import db
+from backend.config import CORS_ALLOWED_ORIGINS
 from backend.qa_agent.agent import answer_question
 from backend.qa_agent.retriever import load_settlement_records
 from backend.reconciliation.validate import validate_reconciliation
@@ -24,7 +25,7 @@ app = FastAPI(title="Solvent API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=CORS_ALLOWED_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )

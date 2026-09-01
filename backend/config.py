@@ -14,6 +14,14 @@ GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
 
 DATABASE_URL = os.getenv("DATABASE_URL", "")
 
+# Comma-separated list of allowed frontend origins for CORS, e.g. the deployed
+# Vercel URL in production. Defaults to the local Next.js dev server.
+CORS_ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:3000").split(",")
+    if origin.strip()
+]
+
 DATA_DIR = BASE_DIR / "data"
 RAW_DATA_DIR = DATA_DIR / "raw"
 PROCESSED_DATA_DIR = DATA_DIR / "processed"
