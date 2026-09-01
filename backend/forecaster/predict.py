@@ -18,7 +18,7 @@ from backend.forecaster.features import (
     MODEL_B_NUMERIC,
     to_frame,
 )
-from backend.forecaster.train import MODELS_DIR
+from backend.config import MODELS_DIR
 
 
 def _parse_naive(dt_str: str) -> datetime:

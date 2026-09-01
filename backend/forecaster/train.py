@@ -17,7 +17,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 from backend import db
-from backend.config import BASE_DIR
+from backend.config import MODELS_DIR
 from backend.forecaster.features import (
     MODEL_A_CATEGORICAL,
     MODEL_A_NUMERIC,
@@ -29,7 +29,6 @@ from backend.forecaster.features import (
     to_frame,
 )
 
-MODELS_DIR = BASE_DIR / "forecaster" / "models"
 RANDOM_STATE = 42
 TEST_SIZE = 0.2
 

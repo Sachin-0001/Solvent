@@ -19,6 +19,12 @@ RAW_DATA_DIR = DATA_DIR / "raw"
 PROCESSED_DATA_DIR = DATA_DIR / "processed"
 GROUND_TRUTH_PATH = DATA_DIR / "ground_truth.json"
 
+# Forecaster model binaries live in ML/notebooks/artifacts — that's where the
+# training notebooks (ML/notebooks/model_*_training.ipynb) save them. Backend
+# reads from there directly rather than keeping its own copy, so a retrain
+# is picked up with no manual copy/move step.
+MODELS_DIR = BASE_DIR.parent / "ML" / "notebooks" / "artifacts"
+
 
 def require_database_url() -> str:
     if not DATABASE_URL:
