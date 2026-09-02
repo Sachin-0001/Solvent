@@ -1,0 +1,4 @@
+# Training notebooks are mostly embedded output (plots, execution logs), not
+# hand-written code — exclude them from GitHub's language detection so the
+# repo's language bar reflects the actual codebase (Python/TypeScript).
+ML/notebooks/*.ipynb linguist-vendored
