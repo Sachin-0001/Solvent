@@ -2,11 +2,12 @@
 Step 1 entry point. Run with:  python -m backend.ingestion.run_ingestion
 
 1. Pulls whatever real transactions exist on the Razorpay test account
-   (Orders -> Payments -> Settlements) via RazorpayAdapter. Test accounts often
-   have zero or very few, and that's fine — it's supplemented below.
-2. Generates a synthetic base-transaction truth set (padded to a usable volume)
-   plus a synthetic internal ledger and bank statement, each with deliberately
-   injected mismatches.
+   (Orders -> Payments -> Settlements) via RazorpayAdapter, purely as a
+   calibration reference (see `fetch_calibration_transactions`) — this data
+   never enters the scored batch.
+2. Generates a 100% synthetic base-transaction truth set plus a synthetic
+   internal ledger and bank statement, each with deliberately injected
+   mismatches.
 3. Augments ledger/bank rows with realistic narration text via Groq (one shared
    wrapper, batched calls).
 4. Writes raw/processed files and ground_truth.json, then prints a summary.
@@ -30,11 +31,19 @@ from backend.ingestion.synthetic_data_generator import (
 N_SYNTHETIC_BASE = 250
 
 
-def fetch_real_transactions() -> list[dict]:
+def fetch_calibration_transactions() -> list[dict]:
+    """
+    Pulls whatever real Razorpay test-mode payments exist, for calibration
+    reference only: eyeballing amount/method distributions against the
+    synthetic generator's BASE_FEE_PCT / PAYMENT_METHOD_WEIGHTS constants in
+    synthetic_data_generator.py. Written to a separate raw file — never loaded
+    by generate_base_transactions or any downstream stage, so it can't leak
+    into ground_truth.json or the numbers docs/metrics.md reports.
+    """
     try:
         adapter = RazorpayAdapter()
         txns = adapter.fetch(order_count=100)
-        print(f"[razorpay] fetched {len(txns)} real payment(s) from test-mode account")
+        print(f"[razorpay] fetched {len(txns)} real payment(s) for calibration reference")
         return [
             {
                 "source_id": t.source_id,
@@ -47,22 +56,20 @@ def fetch_real_transactions() -> list[dict]:
             if t.created_at
         ]
     except Exception as e:
-        print(f"[razorpay] skipped live fetch ({e.__class__.__name__}: {e})")
+        print(f"[razorpay] skipped calibration fetch ({e.__class__.__name__}: {e})")
         return []
 
 
 def main() -> None:
-    real_transactions = fetch_real_transactions()
+    calibration_transactions = fetch_calibration_transactions()
 
-    base_transactions = generate_base_transactions(
-        n_synthetic=N_SYNTHETIC_BASE, real_transactions=real_transactions
-    )
+    base_transactions = generate_base_transactions(n_synthetic=N_SYNTHETIC_BASE)
 
     ledger_rows, ledger_mismatch_map = generate_internal_ledger(base_transactions)
     bank_rows, bank_mismatch_map = generate_bank_statement(base_transactions)
 
-    print(f"[synthetic] {len(base_transactions)} base transactions "
-          f"({len(real_transactions)} real + {N_SYNTHETIC_BASE} synthetic)")
+    print(f"[synthetic] {len(base_transactions)} base transactions (100% synthetic, "
+          f"{len(calibration_transactions)} real calibration-only records kept separate)")
     print(f"[synthetic] {len(ledger_rows)} ledger rows, {len(bank_rows)} bank rows generated")
 
     print("[groq] augmenting ledger rows with narration text...")
@@ -80,12 +87,25 @@ def main() -> None:
     # queryable state in Postgres — what every downstream stage reads from.
     (RAW_DATA_DIR / "internal_ledger.json").write_text(json.dumps(ledger_rows, indent=2))
     (RAW_DATA_DIR / "bank_statement.json").write_text(json.dumps(bank_rows, indent=2))
+    # Calibration reference only — not read by generate_base_transactions or
+    # any downstream stage. Kept as a file for manual inspection.
+    (RAW_DATA_DIR / "razorpay_calibration.json").write_text(
+        json.dumps(calibration_transactions, indent=2)
+    )
 
     db.init_db()
     db.save_base_transactions(base_transactions)
     db.save_ledger_rows(ledger_rows)
     db.save_bank_rows(bank_rows)
     db.save_ground_truth(ground_truth)
+    # record_embeddings is derived entirely from base_transactions but is
+    # populated lazily (qa_agent/embeddings.py's ensure_embeddings, keyed only
+    # by txn_id) rather than as part of this full-refresh — so a re-run whose
+    # new txn_ids happen to overlap the old ones (they do: both start at
+    # TXN00001) would silently keep serving embeddings for the *previous*
+    # dataset's content. Clearing here makes embeddings follow the same
+    # full-refresh semantics as every other derived table.
+    db.save_record_embeddings([])
 
     mismatch_counts: dict[str, int] = {}
     for g in ground_truth:
