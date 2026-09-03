@@ -14,8 +14,10 @@ import joblib
 from backend.forecaster.features import (
     MODEL_A_CATEGORICAL,
     MODEL_A_NUMERIC,
-    MODEL_B_CATEGORICAL,
-    MODEL_B_NUMERIC,
+    MODEL_B_FEE_CATEGORICAL,
+    MODEL_B_FEE_NUMERIC,
+    MODEL_B_REFUND_CATEGORICAL,
+    MODEL_B_REFUND_NUMERIC,
     to_frame,
 )
 from backend.config import MODELS_DIR
@@ -29,22 +31,25 @@ def _parse_naive(dt_str: str) -> datetime:
 
 
 _model_a = None
-_model_b = None
+_model_b_fee = None
+_model_b_refund = None
 _metrics_cache: dict[str, Any] | None = None
 
 
 def _load_models():
-    global _model_a, _model_b
+    global _model_a, _model_b_fee, _model_b_refund
     if _model_a is None:
         _model_a = joblib.load(MODELS_DIR / "model_a_days_to_settle.joblib")
-    if _model_b is None:
-        _model_b = joblib.load(MODELS_DIR / "model_b_deduction_pct.joblib")
-    return _model_a, _model_b
+    if _model_b_fee is None:
+        _model_b_fee = joblib.load(MODELS_DIR / "model_b_fee_deduction_pct.joblib")
+    if _model_b_refund is None:
+        _model_b_refund = joblib.load(MODELS_DIR / "model_b_refund_deduction_pct.joblib")
+    return _model_a, _model_b_fee, _model_b_refund
 
 
 def _load_mae() -> tuple[float, float]:
-    """Returns (model_a_mae_days, model_b_mae_deduction_pct) from the last
-    training report, used as a cheap, honest uncertainty band since plain
+    """Returns (model_a_mae_days, model_b_combined_mae_deduction_pct) from the
+    last training report, used as a cheap, honest uncertainty band since plain
     LinearRegression has no native prediction interval."""
     global _metrics_cache
     if _metrics_cache is None:
@@ -52,23 +57,31 @@ def _load_mae() -> tuple[float, float]:
 
         _metrics_cache = {
             "model_a": db.load_forecaster_metrics("model_a"),
-            "model_b": db.load_forecaster_metrics("model_b"),
+            "model_b_combined": db.load_forecaster_metrics("model_b_combined"),
         }
     return (
         _metrics_cache["model_a"]["chosen_mae"],
-        _metrics_cache["model_b"]["chosen_mae"],
+        _metrics_cache["model_b_combined"]["mae"],
     )
 
 
 def predict_transaction(txn: dict[str, Any]) -> dict[str, float]:
-    """Predicts days_to_settle and deduction_pct for one transaction dict
-    (must carry the raw feature fields — see features.py)."""
-    model_a, model_b = _load_models()
+    """Predicts days_to_settle and total deduction_pct for one transaction
+    dict (must carry the raw feature fields — see features.py). Deduction is
+    fee_deduction_pct (every transaction) + refund_deduction_pct (only if
+    had_refund), combined here rather than by one model — see features.py."""
+    model_a, model_b_fee, model_b_refund = _load_models()
     df = to_frame([txn])
 
     days_to_settle = float(model_a.predict(df[MODEL_A_NUMERIC + MODEL_A_CATEGORICAL])[0])
-    deduction_pct = float(model_b.predict(df[MODEL_B_NUMERIC + MODEL_B_CATEGORICAL])[0])
-    deduction_pct = max(0.0, min(1.0, deduction_pct))  # deduction can't be negative or >100%
+
+    fee_pct = float(model_b_fee.predict(df[MODEL_B_FEE_NUMERIC + MODEL_B_FEE_CATEGORICAL])[0])
+    refund_pct = (
+        float(model_b_refund.predict(df[MODEL_B_REFUND_NUMERIC + MODEL_B_REFUND_CATEGORICAL])[0])
+        if txn.get("had_refund")
+        else 0.0
+    )
+    deduction_pct = max(0.0, min(1.0, fee_pct + refund_pct))  # deduction can't be negative or >100%
 
     return {"predicted_days_to_settle": round(days_to_settle, 2), "predicted_deduction_pct": round(deduction_pct, 4)}
 

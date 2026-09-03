@@ -38,9 +38,12 @@ from backend.forecaster.features import (
     MODEL_A_CATEGORICAL,
     MODEL_A_NUMERIC,
     MODEL_A_TARGET,
-    MODEL_B_CATEGORICAL,
-    MODEL_B_NUMERIC,
-    MODEL_B_TARGET,
+    MODEL_B_FEE_CATEGORICAL,
+    MODEL_B_FEE_NUMERIC,
+    MODEL_B_FEE_TARGET,
+    MODEL_B_REFUND_CATEGORICAL,
+    MODEL_B_REFUND_NUMERIC,
+    MODEL_B_REFUND_TARGET,
     build_pipeline,
     to_frame,
 )
@@ -149,6 +152,7 @@ def plot_model(df, numeric, categorical, target, label, title):
 def main() -> None:
     transactions = db.load_base_transactions()
     df = to_frame(transactions)
+    df_refund_only = df[df["had_refund"] == 1]
 
     summary = {}
     summary["model_a"] = plot_model(
@@ -159,13 +163,21 @@ def main() -> None:
         "model_a_days_to_settle",
         "Model A — days_to_settle (linear regression)",
     )
-    summary["model_b"] = plot_model(
+    summary["model_b_fee"] = plot_model(
         df,
-        MODEL_B_NUMERIC,
-        MODEL_B_CATEGORICAL,
-        MODEL_B_TARGET,
-        "model_b_deduction_pct",
-        "Model B — deduction_pct (linear regression)",
+        MODEL_B_FEE_NUMERIC,
+        MODEL_B_FEE_CATEGORICAL,
+        MODEL_B_FEE_TARGET,
+        "model_b_fee_deduction_pct",
+        "Model B (fee) — fee_deduction_pct (linear regression)",
+    )
+    summary["model_b_refund"] = plot_model(
+        df_refund_only,
+        MODEL_B_REFUND_NUMERIC,
+        MODEL_B_REFUND_CATEGORICAL,
+        MODEL_B_REFUND_TARGET,
+        "model_b_refund_deduction_pct",
+        "Model B (refund) — refund_deduction_pct, had_refund=1 rows only (linear regression)",
     )
 
     print("\n=== Diagnostic summary ===")

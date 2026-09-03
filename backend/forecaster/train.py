@@ -18,13 +18,17 @@ from sklearn.model_selection import train_test_split
 
 from backend import db
 from backend.config import MODELS_DIR
+from backend.forecaster.gmv import train_gmv_model
 from backend.forecaster.features import (
     MODEL_A_CATEGORICAL,
     MODEL_A_NUMERIC,
     MODEL_A_TARGET,
-    MODEL_B_CATEGORICAL,
-    MODEL_B_NUMERIC,
-    MODEL_B_TARGET,
+    MODEL_B_FEE_CATEGORICAL,
+    MODEL_B_FEE_NUMERIC,
+    MODEL_B_FEE_TARGET,
+    MODEL_B_REFUND_CATEGORICAL,
+    MODEL_B_REFUND_NUMERIC,
+    MODEL_B_REFUND_TARGET,
     build_pipeline,
     to_frame,
 )
@@ -59,19 +63,16 @@ def _has_curvature(pipeline, X_train: pd.DataFrame, y_train: pd.Series) -> bool:
     return bool(np.abs(corr) > 0.15)
 
 
-def train_and_evaluate(
-    df: pd.DataFrame,
+def _fit_and_report(
+    X_train: pd.DataFrame,
+    X_test: pd.DataFrame,
+    y_train: pd.Series,
+    y_test: pd.Series,
     numeric: list[str],
     categorical: list[str],
     target: str,
     label: str,
-) -> dict:
-    X = df[numeric + categorical]
-    y = df[target]
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=TEST_SIZE, random_state=RANDOM_STATE
-    )
-
+) -> tuple[dict, object]:
     baseline = build_pipeline(numeric, categorical, amount_poly_degree=1)
     baseline.fit(X_train, y_train)
     baseline_pred = baseline.predict(X_test)
@@ -93,8 +94,10 @@ def train_and_evaluate(
         if poly_mae < baseline_mae:
             best_pipeline, best_mae, best_mape, chosen = poly, poly_mae, poly_mape, "polynomial(degree=2)"
 
-    # Refit the chosen model on the full dataset for the artifact we actually ship.
-    best_pipeline.fit(X, y)
+    # Refit the chosen model on train+test combined for the artifact we actually ship.
+    X_full = pd.concat([X_train, X_test])
+    y_full = pd.concat([y_train, y_test])
+    best_pipeline.fit(X_full, y_full)
 
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
     model_path = MODELS_DIR / f"{label}.joblib"
@@ -115,7 +118,84 @@ def train_and_evaluate(
         "chosen_mape_pct": round(best_mape, 2),
         "model_path": str(model_path),
     }
+    return report, best_pipeline
+
+
+def train_and_evaluate(
+    df: pd.DataFrame,
+    numeric: list[str],
+    categorical: list[str],
+    target: str,
+    label: str,
+) -> dict:
+    X = df[numeric + categorical]
+    y = df[target]
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=TEST_SIZE, random_state=RANDOM_STATE
+    )
+    report, _ = _fit_and_report(X_train, X_test, y_train, y_test, numeric, categorical, target, label)
     return report
+
+
+def train_model_b(df: pd.DataFrame) -> tuple[dict, dict, dict]:
+    """
+    Model B is split into two additive components (see features.py for why):
+    fee_deduction_pct (every transaction) and refund_deduction_pct (trained
+    only on had_refund=1 rows, so the ~92% zero rows don't dilute it). Both
+    share one overall train/test split of the full dataset so a combined
+    total_deduction_pct = fee_pred + refund_pred (gated by had_refund) can be
+    evaluated on the same held-out rows the original single Model B was
+    scored on — the number to compare directly against the old 0.0316 MAE /
+    126.83% MAPE.
+    """
+    df_train, df_test = train_test_split(df, test_size=TEST_SIZE, random_state=RANDOM_STATE)
+
+    fee_report, fee_pipeline = _fit_and_report(
+        df_train[MODEL_B_FEE_NUMERIC + MODEL_B_FEE_CATEGORICAL],
+        df_test[MODEL_B_FEE_NUMERIC + MODEL_B_FEE_CATEGORICAL],
+        df_train[MODEL_B_FEE_TARGET],
+        df_test[MODEL_B_FEE_TARGET],
+        MODEL_B_FEE_NUMERIC,
+        MODEL_B_FEE_CATEGORICAL,
+        MODEL_B_FEE_TARGET,
+        "model_b_fee_deduction_pct",
+    )
+
+    refund_train_df = df_train[df_train["had_refund"] == 1]
+    refund_test_df = df_test[df_test["had_refund"] == 1]
+    refund_report, refund_pipeline = _fit_and_report(
+        refund_train_df[MODEL_B_REFUND_NUMERIC + MODEL_B_REFUND_CATEGORICAL],
+        refund_test_df[MODEL_B_REFUND_NUMERIC + MODEL_B_REFUND_CATEGORICAL],
+        refund_train_df[MODEL_B_REFUND_TARGET],
+        refund_test_df[MODEL_B_REFUND_TARGET],
+        MODEL_B_REFUND_NUMERIC,
+        MODEL_B_REFUND_CATEGORICAL,
+        MODEL_B_REFUND_TARGET,
+        "model_b_refund_deduction_pct",
+    )
+    refund_report["n_train_full_test_set"] = len(df_test)
+    refund_report["note"] = (
+        "n_train/n_test above count only had_refund=1 rows (the model's actual "
+        "training/eval population); n_train_full_test_set is the overall test "
+        "split size used for the combined total_deduction_pct evaluation below."
+    )
+
+    fee_pred_test = fee_pipeline.predict(df_test[MODEL_B_FEE_NUMERIC + MODEL_B_FEE_CATEGORICAL])
+    refund_pred_test = np.where(
+        df_test["had_refund"].values == 1,
+        refund_pipeline.predict(df_test[MODEL_B_REFUND_NUMERIC + MODEL_B_REFUND_CATEGORICAL]),
+        0.0,
+    )
+    total_pred_test = fee_pred_test + refund_pred_test
+    total_actual_test = df_test["deduction_pct"].values
+    combined_report = {
+        "label": "model_b_combined_total_deduction_pct",
+        "target": "deduction_pct (fee_deduction_pct + refund_deduction_pct)",
+        "n_test": len(df_test),
+        "mae": round(_mae(total_actual_test, total_pred_test), 4),
+        "mape_pct": round(_mape(total_actual_test, total_pred_test), 2),
+    }
+    return fee_report, refund_report, combined_report
 
 
 def main() -> None:
@@ -125,12 +205,11 @@ def main() -> None:
     report_a = train_and_evaluate(
         df, MODEL_A_NUMERIC, MODEL_A_CATEGORICAL, MODEL_A_TARGET, "model_a_days_to_settle"
     )
-    report_b = train_and_evaluate(
-        df, MODEL_B_NUMERIC, MODEL_B_CATEGORICAL, MODEL_B_TARGET, "model_b_deduction_pct"
-    )
+    report_b_fee, report_b_refund, report_b_combined = train_model_b(df)
+    report_gmv = train_gmv_model(transactions)
 
     print("=== Forecaster training report ===\n")
-    for report in (report_a, report_b):
+    for report in (report_a, report_b_fee, report_b_refund):
         print(f"--- {report['label']} (target: {report['target']}) ---")
         print(f"n_train={report['n_train']}  n_test={report['n_test']}")
         print(f"Curvature detected on txn_amount: {report['curvature_detected']}")
@@ -140,9 +219,25 @@ def main() -> None:
         print(f"  CHOSEN: {report['chosen_model']} -> MAE: {report['chosen_mae']}  MAPE: {report['chosen_mape_pct']}%")
         print(f"  Saved: {report['model_path']}\n")
 
+    print(f"--- {report_b_combined['label']} ---")
+    print(f"n_test={report_b_combined['n_test']}")
+    print(f"  COMBINED (fee + refund, gated by had_refund) -> "
+          f"MAE: {report_b_combined['mae']}  MAPE: {report_b_combined['mape_pct']}%")
+    print("  (compare directly against the old single-model Model B: MAE 0.0316 / MAPE 126.83%)\n")
+
+    print("--- gmv (target: next-day total GMV) ---")
+    print(f"n_train={report_gmv['n_train']}  n_test={report_gmv['n_test']}")
+    print(f"  Linear regression  -> MAE: {report_gmv['mae']}  RMSE: {report_gmv['rmse']}")
+    print(f"  Naive (prev day)   -> MAE: {report_gmv['naive_mae']}")
+    print(f"  Improvement over naive: {report_gmv['improvement_pct']}%")
+    print(f"  Saved: {report_gmv['model_path']}\n")
+
     db.save_forecaster_metrics("model_a", report_a)
-    db.save_forecaster_metrics("model_b", report_b)
-    print("Wrote (Postgres): forecaster_metrics (model_a, model_b)")
+    db.save_forecaster_metrics("model_b_fee", report_b_fee)
+    db.save_forecaster_metrics("model_b_refund", report_b_refund)
+    db.save_forecaster_metrics("model_b_combined", report_b_combined)
+    db.save_forecaster_metrics("gmv", report_gmv)
+    print("Wrote (Postgres): forecaster_metrics (model_a, model_b_fee, model_b_refund, model_b_combined, gmv)")
 
 
 if __name__ == "__main__":
