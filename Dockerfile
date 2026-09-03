@@ -3,6 +3,13 @@ FROM python:3.12-slim
 WORKDIR /app
 
 COPY backend/requirements.txt backend/requirements.txt
+
+# CPU-only torch first, before sentence-transformers pulls in the default
+# CUDA build as a transitive dep — this API never touches a GPU, and the
+# CUDA build costs ~380MB extra RAM at import time for nothing (measured:
+# 587MB vs 210MB just to `import torch`), which matters on a memory-capped
+# free-tier host.
+RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
 RUN pip install --no-cache-dir -r backend/requirements.txt
 
 # Pre-download the embedding model at build time so the first request in
