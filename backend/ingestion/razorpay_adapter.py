@@ -32,8 +32,13 @@ PAGE_SIZE = 100  # Razorpay's hard max for `count` per list call
 class RazorpayAdapter(IngestionAdapter):
     name = "razorpay"
 
-    def __init__(self) -> None:
-        key_id, key_secret = require_razorpay_keys()
+    def __init__(self, key_id: str | None = None, key_secret: str | None = None) -> None:
+        # Explicit credentials (Track B's "connect my account" flow, where a
+        # merchant supplies their own key/secret for one request) take
+        # precedence over the .env-configured demo account; never logged or
+        # persisted anywhere in this class.
+        if key_id is None or key_secret is None:
+            key_id, key_secret = require_razorpay_keys()
         self.client = razorpay.Client(auth=(key_id, key_secret))
 
     def _paginate(self, list_fn, max_total: int) -> list[dict[str, Any]]:
