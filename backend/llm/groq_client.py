@@ -21,7 +21,7 @@ from backend.config import GROQ_MODEL, require_groq_key
 # Re-exported so callers can catch one exception family for "the Groq call
 # itself failed" (rate limit, network, auth, 5xx, ...) alongside ValueError
 # ("Groq responded but not with parseable JSON") from call_groq_json below.
-__all__ = ["call_groq", "call_groq_json", "GroqError"]
+__all__ = ["call_groq", "call_groq_json", "call_groq_with_tools", "GroqError"]
 
 _client: Groq | None = None
 
@@ -78,6 +78,54 @@ def call_groq(
                 reasoning_effort=reasoning_effort,
             )
             return response.choices[0].message.content or ""
+        except RateLimitError as e:
+            retry_after = _parse_retry_after(e)
+            if (
+                attempt < MAX_RETRIES
+                and retry_after is not None
+                and retry_after <= RATE_LIMIT_MAX_WAIT_SECONDS
+            ):
+                time.sleep(retry_after)
+                last_error = e
+                continue
+            raise
+        except (APIConnectionError, APIStatusError) as e:
+            last_error = e
+            if attempt < MAX_RETRIES:
+                time.sleep(BASE_BACKOFF_SECONDS * (2**attempt))
+                continue
+            raise
+
+    raise last_error  # unreachable, satisfies type checkers
+
+
+def call_groq_with_tools(
+    messages: list[dict[str, Any]],
+    tools: list[dict[str, Any]],
+    model: str | None = None,
+    temperature: float = 0.2,
+    max_tokens: int = 1024,
+    reasoning_effort: str = "low",
+):
+    """One turn of a tool-calling conversation: returns the raw Groq message
+    object (which may carry `.tool_calls` for the caller's agent loop to
+    execute, or plain `.content` as the final answer). Retry policy mirrors
+    `call_groq` — this is the only other shape of Groq call in the codebase,
+    so it stays in this one shared module rather than duplicating retry
+    logic at the call site (backend/qa_agent/agent.py)."""
+    last_error: GroqError | None = None
+    for attempt in range(MAX_RETRIES + 1):
+        try:
+            response = _get_client().chat.completions.create(
+                model=model or GROQ_MODEL,
+                messages=messages,
+                tools=tools,
+                tool_choice="auto",
+                temperature=temperature,
+                max_tokens=max_tokens,
+                reasoning_effort=reasoning_effort,
+            )
+            return response.choices[0].message
         except RateLimitError as e:
             retry_after = _parse_retry_after(e)
             if (

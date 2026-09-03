@@ -19,7 +19,14 @@ def main() -> None:
         raise SystemExit(1)
     question = " ".join(sys.argv[1:])
     print(f"Q: {question}\n")
-    print(f"A: {answer_question(question)}")
+    answer, trace = answer_question(question)
+    if trace:
+        print("Tool calls:")
+        for t in trace:
+            marker = "OK" if t["status"] == "success" else "FAIL"
+            print(f"  [{marker}] {t['name']}({t['arguments']}) -> {t['result_summary']} ({t['duration_ms']}ms)")
+        print()
+    print(f"A: {answer}")
 
 
 if __name__ == "__main__":

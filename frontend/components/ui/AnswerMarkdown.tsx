@@ -3,9 +3,9 @@ import remarkGfm from "remark-gfm";
 import { cn } from "@/lib/cn";
 
 /**
- * Renders the Q&A agent's Groq-generated answer — which regularly comes back
+ * Renders the Q&A agent's Groq-generated answer - which regularly comes back
  * as real markdown (bold, bullet/numbered lists, GFM tables, horizontal
- * rules) — as styled React elements. react-markdown never injects raw HTML
+ * rules) - as styled React elements. react-markdown never injects raw HTML
  * unless rehype-raw is added (it isn't here), so LLM-sourced content stays
  * safe from injection the same way plain-text JSX already was.
  */
