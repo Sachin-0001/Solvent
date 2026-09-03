@@ -1,7 +1,7 @@
-import { ChevronRight } from "lucide-react";
-import type { PipelineStatus } from "@/lib/api";
-import { formatCount, formatHours, formatPercent } from "@/lib/format";
+import type { CashPosition, PipelineStatus } from "@/lib/api";
+import { formatCount, formatINR, formatPercent } from "@/lib/format";
 import { GateMark } from "@/components/ui/Badge";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 interface Stage {
   name: string;
@@ -10,10 +10,7 @@ interface Stage {
   gate: "passed" | "pending";
 }
 
-function buildStages(status: PipelineStatus): Stage[] {
-  const modelAMae = status.forecast.model_a?.chosen_mae;
-  const modelBMape = status.forecast.model_b?.chosen_mape_pct;
-
+function buildStages(status: PipelineStatus, cashPosition: CashPosition | null): Stage[] {
   return [
     {
       name: "Ingest",
@@ -35,11 +32,10 @@ function buildStages(status: PipelineStatus): Stage[] {
     },
     {
       name: "Forecast",
-      headline: modelAMae !== undefined ? `±${formatHours(modelAMae)}` : "—",
-      detail:
-        modelBMape !== undefined
-          ? `model A MAE ${modelAMae?.toFixed(2)}d · model B MAPE ${modelBMape.toFixed(1)}%`
-          : "not yet trained",
+      headline: cashPosition ? formatINR(cashPosition.projected_cash) : "-",
+      detail: cashPosition
+        ? `projected cash for ${cashPosition.forecast_date ?? "tomorrow"}`
+        : "not yet available",
       gate: status.forecast.gate,
     },
     {
@@ -53,39 +49,45 @@ function buildStages(status: PipelineStatus): Stage[] {
 
 const STAGE_NAMES = ["Ingest", "Reconcile", "Classify", "Forecast", "Ask"];
 
-export function PipelineRail({ status }: { status: PipelineStatus | null }) {
-  const stages = status ? buildStages(status) : null;
+export function PipelineRail({
+  status,
+  cashPosition,
+}: {
+  status: PipelineStatus | null;
+  cashPosition: CashPosition | null;
+}) {
+  const stages = status ? buildStages(status, cashPosition) : null;
 
   return (
-    <div className="overflow-x-auto border-b border-rule">
-      <div className="flex min-w-max divide-x divide-rule">
-        {STAGE_NAMES.map((name, i) => {
-          const stage = stages?.[i];
-          return (
-            <div key={name} className="flex items-stretch">
-              <div className="flex w-64 flex-col items-center justify-center gap-1 px-5 py-4 text-center">
-                <div className="flex items-center justify-center gap-2">
-                  <span className="text-xs font-medium uppercase tracking-wider text-fg-muted">
-                    {i + 1}. {name}
-                  </span>
-                  {stage && <GateMark gate={stage.gate} />}
-                </div>
-                <div className="figure text-2xl font-semibold text-fg">
-                  {stage ? stage.headline : "—"}
-                </div>
-                <div className="text-xs text-fg-faint">
-                  {stage ? stage.detail : "loading…"}
-                </div>
-              </div>
-              {i < STAGE_NAMES.length - 1 && (
-                <div className="flex items-center px-1 text-fg-faint">
-                  <ChevronRight size={14} />
-                </div>
-              )}
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-5">
+      {STAGE_NAMES.map((name, i) => {
+        const stage = stages?.[i];
+        return (
+          <div
+            key={name}
+            className="rounded-[var(--radius-card)] border border-rule bg-card px-4 py-3.5 transition-colors hover:border-rule-strong"
+          >
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-[11px] font-medium uppercase tracking-wider text-fg-faint">
+                {name}
+              </span>
+              {stage ? <GateMark gate={stage.gate} /> : <Skeleton className="h-3.5 w-3.5 rounded-full" />}
             </div>
-          );
-        })}
-      </div>
+            {stage ? (
+              <div className="figure mt-2 truncate text-[22px] font-semibold leading-none text-fg">
+                {stage.headline}
+              </div>
+            ) : (
+              <Skeleton className="mt-2 h-[22px] w-20" />
+            )}
+            {stage ? (
+              <div className="mt-1.5 truncate text-xs text-fg-muted">{stage.detail}</div>
+            ) : (
+              <Skeleton className="mt-1.5 h-3 w-28" />
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

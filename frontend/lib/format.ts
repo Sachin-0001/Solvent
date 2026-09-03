@@ -33,7 +33,7 @@ export function formatHours(value: number): string {
 
 /**
  * `amount_diff` carries raw float-subtraction noise (e.g. 9.09e-13) from the
- * matcher — round near-zero values to a clean "0.00" instead of scientific
+ * matcher - round near-zero values to a clean "0.00" instead of scientific
  * notation, and never render more than 2 decimal places.
  */
 export function formatDrift(value: number): string {

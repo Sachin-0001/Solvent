@@ -1,6 +1,9 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
 import type { ReconciliationSummary } from "@/lib/api";
 import { Panel, PanelHeader } from "@/components/ui/Panel";
+import { Skeleton } from "@/components/ui/Skeleton";
 import { formatCount, formatPercent } from "@/lib/format";
 
 interface Tier {
@@ -25,7 +28,7 @@ function buildTiers(summary: ReconciliationSummary): Tier[] {
       label: "LLM reasoning",
       count: llm,
       color: "var(--tier-llm)",
-      detail: llm === 0 ? "not needed — code handled it all" : "exception residual only",
+      detail: llm === 0 ? "not needed - code handled it all" : "exception residual only",
     },
     {
       key: "unmatchable",
@@ -81,15 +84,21 @@ export function ResolutionWaterfall({ summary }: { summary: ReconciliationSummar
   return (
     <Panel>
       <PanelHeader
+        eyebrow="Reconciliation · full batch"
         title="Resolution Cascade"
-        right={
-          summary
-            ? `precision ${formatPercent(summary.precision)} · recall ${formatPercent(summary.recall)}`
-            : undefined
-        }
+        subtitle="How every transaction resolved - exact match first, then fuzzy, then LLM reasoning on the residual."
       />
-      <div className="px-5 py-5">
-        {!tiers && <div className="text-xs text-fg-faint">loading…</div>}
+      <div className="px-5 pt-1 pb-5">
+        {!tiers && (
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
+            <Skeleton className="h-[136px] w-[136px] shrink-0 rounded-full" />
+            <div className="grid flex-1 grid-cols-1 gap-2.5 sm:grid-cols-2">
+              {Array.from({ length: 4 }, (_, i) => (
+                <Skeleton key={i} className="h-[58px] rounded-[var(--radius-control)]" />
+              ))}
+            </div>
+          </div>
+        )}
         {tiers && summary && (
           <>
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
@@ -99,7 +108,10 @@ export function ResolutionWaterfall({ summary }: { summary: ReconciliationSummar
                 {tiers.map((t) => {
                   const pct = (t.count / summary.total_ground_truth_txns) * 100;
                   return (
-                    <div key={t.key} className="flex items-center gap-3 border border-rule px-3 py-2.5">
+                    <div
+                      key={t.key}
+                      className="flex items-center gap-3 rounded-[var(--radius-control)] border border-rule bg-bg-elevated px-3 py-2.5"
+                    >
                       <span
                         className="h-2.5 w-2.5 shrink-0 rounded-full"
                         style={{ backgroundColor: t.color }}
@@ -122,16 +134,22 @@ export function ResolutionWaterfall({ summary }: { summary: ReconciliationSummar
               </div>
             </div>
 
-            <a
-              href="#exceptions"
-              className="mt-4 flex items-center justify-between border border-accent-red/25 bg-accent-red-dim px-3.5 py-2.5 transition-colors hover:border-accent-red/45"
+            <button
+              onClick={() => {
+                const container = document.getElementById("dashboard-scroll");
+                const target = document.getElementById("exceptions");
+                if (container && target) {
+                  container.scrollTo({ top: target.offsetTop - 12, behavior: "smooth" });
+                }
+              }}
+              className="mt-4 flex w-full items-center justify-between rounded-[var(--radius-control)] border border-accent-red/25 bg-accent-red-dim px-3.5 py-2.5 text-left transition-colors hover:border-accent-red/45"
             >
               <span className="text-[13px] text-accent-red">
                 <span className="figure font-semibold">{formatCount(summary.exception_count)}</span> rows
                 left honest and unresolved in the Exception Ledger
               </span>
               <ArrowRight size={13} className="shrink-0 text-accent-red" />
-            </a>
+            </button>
           </>
         )}
       </div>

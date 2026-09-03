@@ -1,17 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #08090d;
-  --bg-elevated: #0d0f15;
-  --card: #0f1116;
-  --card-hover: #14161d;
+  --bg: #0a0b0f;
+  --bg-sidebar: #0c0d12;
+  --bg-elevated: #12141a;
+  --card: #111318;
+  --card-hover: #171922;
   --border: rgba(255, 255, 255, 0.07);
   --border-strong: rgba(255, 255, 255, 0.13);
-  --rule: rgba(255, 255, 255, 0.08);
-  --rule-strong: rgba(255, 255, 255, 0.16);
-  --fg: #e4e7ec;
-  --fg-muted: #838d9c;
-  --fg-faint: #707a87;
+  --rule: rgba(255, 255, 255, 0.07);
+  --rule-strong: rgba(255, 255, 255, 0.14);
+  --fg: #eceef2;
+  --fg-muted: #9aa3b2;
+  --fg-faint: #6b7480;
+
+  --accent: #7c6cf5;
+  --accent-hover: #8f80f7;
+  --accent-dim: rgba(124, 108, 245, 0.14);
 
   --accent-green: #2bd6a3;
   --accent-green-dim: rgba(43, 214, 163, 0.12);
@@ -22,17 +27,25 @@
   --accent-blue: #5b8def;
   --accent-blue-dim: rgba(91, 141, 239, 0.12);
 
+  --radius-card: 10px;
+  --radius-control: 7px;
+
   --tier-exact: var(--accent-green);
   --tier-fuzzy: var(--accent-blue);
   --tier-llm: var(--accent-amber);
 
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
+  --font-display: var(--font-space-grotesk);
 }
 
 @theme inline {
   --color-bg: var(--bg);
+  --color-bg-sidebar: var(--bg-sidebar);
   --color-bg-elevated: var(--bg-elevated);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-dim: var(--accent-dim);
   --color-card: var(--card);
   --color-card-hover: var(--card-hover);
   --color-border: var(--border);
@@ -55,6 +68,7 @@
   --color-tier-llm: var(--tier-llm);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+  --font-display: var(--font-display);
 }
 
 * {
@@ -69,6 +83,18 @@ body {
 .figure {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
+}
+
+/**
+ * The Solvent wordmark - the text itself is the brand logo (no icon mark).
+ * Tight negative tracking is what makes it read as a logotype rather than
+ * as ordinary heading text.
+ */
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  font-feature-settings: "ss01" 1;
 }
 
 .rule-h {
@@ -128,6 +154,20 @@ body {
   animation: fade-in-up 0.4s ease-out both;
 }
 
+@keyframes drawer-in {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.drawer-in {
+  animation: drawer-in 0.18s ease-out both;
+}
+
 @keyframes modal-in {
   from {
     opacity: 0;
@@ -140,4 +180,23 @@ body {
 }
 .modal-in {
   animation: modal-in 0.15s ease-out both;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--bg-elevated) 25%,
+    var(--card-hover) 50%,
+    var(--bg-elevated) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
 }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { api, type TaxClassificationRecord, type TaxSummary } from "@/lib/api";
 import { Panel, PanelHeader } from "@/components/ui/Panel";
+import { Skeleton } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/cn";
 
 const CATEGORY_META: Record<string, { label: string; color: string }> = {
@@ -42,14 +43,27 @@ export function TaxLedger({ summary }: { summary: TaxSummary | null }) {
   return (
     <Panel>
       <PanelHeader
+        eyebrow="GST treatment · full batch"
         title="Tax Classification"
+        subtitle="How each line was classified for GST. Click a category to see the per-transaction reasoning."
+        count={summary?.total}
         right={
           summary
             ? `${summary.resolved_by_rules} by rule · ${summary.resolved_by_llm} by LLM`
             : undefined
         }
       />
-      <div className="space-y-1 px-5 py-4">
+      <div className="flex flex-1 flex-col justify-center space-y-1 px-5 pt-1 pb-4">
+        {!summary &&
+          Array.from({ length: 5 }, (_, i) => (
+            <div key={i} className="py-2">
+              <div className="mb-1 flex items-center justify-between">
+                <Skeleton className="h-3.5 w-24" />
+                <Skeleton className="h-3.5 w-10" />
+              </div>
+              <Skeleton className="h-1.5 w-full" />
+            </div>
+          ))}
         {entries.map(([category, count]) => {
           const meta = CATEGORY_META[category] ?? { label: category, color: "var(--fg-muted)" };
           const pct = summary ? (count / summary.total) * 100 : 0;
@@ -75,7 +89,10 @@ export function TaxLedger({ summary }: { summary: TaxSummary | null }) {
               </button>
               {isOpen && (
                 <div className="mb-2 space-y-1.5 border-l border-rule pl-3">
-                  {loading && <div className="text-xs text-fg-faint">loading…</div>}
+                  {loading &&
+                    Array.from({ length: 3 }, (_, i) => (
+                      <Skeleton key={i} className="h-3.5 w-full" />
+                    ))}
                   {!loading &&
                     rows?.map((r) => (
                       <div key={r.txn_id} className="text-[13px]">
@@ -88,7 +105,6 @@ export function TaxLedger({ summary }: { summary: TaxSummary | null }) {
             </div>
           );
         })}
-        {!summary && <div className="text-xs text-fg-faint">loading…</div>}
       </div>
     </Panel>
   );

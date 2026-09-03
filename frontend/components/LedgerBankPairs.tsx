@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { api, type ReconciliationMatch } from "@/lib/api";
 import { Panel, PanelHeader } from "@/components/ui/Panel";
 import { TierBadge } from "@/components/ui/Badge";
+import { Skeleton } from "@/components/ui/Skeleton";
 import { formatDrift, formatINRFull } from "@/lib/format";
 import { cn } from "@/lib/cn";
 
@@ -36,7 +37,9 @@ export function LedgerBankPairs() {
   return (
     <Panel>
       <PanelHeader
+        eyebrow="Matched pairs · both sources"
         title="Ledger ⇄ Bank"
+        subtitle="Each confirmed match with both source rows and the fee/GST arithmetic that closes it."
         count={data?.total}
         right={
           <div className="flex items-center gap-2">
@@ -45,9 +48,9 @@ export function LedgerBankPairs() {
                 key={f.label}
                 onClick={() => setTier(f.value)}
                 className={cn(
-                  "rounded-sm border px-2 py-1 text-xs transition-colors",
+                  "rounded-[var(--radius-control)] border px-2 py-1 text-xs transition-colors",
                   tier === f.value
-                    ? "border-accent-green/40 text-accent-green"
+                    ? "border-accent/50 bg-accent-dim text-accent"
                     : "border-border-strong text-fg-muted hover:text-fg"
                 )}
               >
@@ -57,7 +60,7 @@ export function LedgerBankPairs() {
             <button
               onClick={() => setSortDrift((v) => !v)}
               className={cn(
-                "rounded-sm border px-2 py-1 text-xs transition-colors",
+                "rounded-[var(--radius-control)] border px-2 py-1 text-xs transition-colors",
                 sortDrift
                   ? "border-accent-amber/40 text-accent-amber"
                   : "border-border-strong text-fg-muted hover:text-fg"
@@ -69,7 +72,26 @@ export function LedgerBankPairs() {
         }
       />
       <div className="max-h-[420px] overflow-y-auto divide-y divide-rule">
-        {!data && <div className="px-5 py-8 text-center text-sm text-fg-faint">loading…</div>}
+        {!data &&
+          Array.from({ length: 4 }, (_, i) => (
+            <div
+              key={i}
+              className="grid grid-cols-1 gap-2 px-5 py-3 sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-4"
+            >
+              <div className="flex flex-col gap-1.5">
+                <Skeleton className="h-4 w-32" />
+                <Skeleton className="h-3 w-40" />
+              </div>
+              <div className="flex flex-col items-center gap-1.5">
+                <Skeleton className="h-4 w-14" />
+                <Skeleton className="h-3 w-10" />
+              </div>
+              <div className="flex flex-col items-end gap-1.5">
+                <Skeleton className="h-4 w-32" />
+                <Skeleton className="h-3 w-40" />
+              </div>
+            </div>
+          ))}
         {data?.items.length === 0 && (
           <div className="px-5 py-8 text-center text-sm text-fg-faint">No matches for this filter.</div>
         )}
@@ -77,7 +99,7 @@ export function LedgerBankPairs() {
           <div key={m.id} className="grid grid-cols-1 gap-2 px-5 py-3 sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-4">
             <div className="min-w-0">
               <div className="figure text-sm text-fg">
-                {m.ledger?.row_id ?? "—"} · {m.ledger ? formatINRFull(m.ledger.amount) : "—"}
+                {m.ledger?.row_id ?? "-"} · {m.ledger ? formatINRFull(m.ledger.amount) : "-"}
               </div>
               {m.ledger && (
                 <div className="mt-0.5 truncate text-xs text-fg-faint" title={m.ledger.narration ?? undefined}>
@@ -96,7 +118,7 @@ export function LedgerBankPairs() {
             </div>
             <div className="min-w-0 sm:text-right">
               <div className="figure text-sm text-fg">
-                {m.bank ? formatINRFull(m.bank.amount) : "—"} · {m.bank?.row_id ?? "—"}
+                {m.bank ? formatINRFull(m.bank.amount) : "-"} · {m.bank?.row_id ?? "-"}
               </div>
               {m.bank && (
                 <div className="mt-0.5 truncate text-xs text-fg-faint" title={m.bank.narration ?? undefined}>
