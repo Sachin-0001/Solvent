@@ -11,12 +11,13 @@ from __future__ import annotations
 
 from typing import Any
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from backend import db
+from backend import db, track_b
 from backend.config import CORS_ALLOWED_ORIGINS
+from backend.ingestion.csv_adapter import CSVFormatError
 from backend.qa_agent.agent import answer_question
 from backend.qa_agent.retriever import load_settlement_records
 from backend.reconciliation.validate import validate_reconciliation
@@ -50,6 +51,105 @@ def reconciliation_summary() -> dict[str, Any]:
 @app.get("/api/reconciliation/exceptions")
 def reconciliation_exceptions() -> list[dict[str, Any]]:
     return db.load_reconciliation_exceptions()
+
+
+# --- Human-in-the-loop review queue.
+#
+# Reconciliation deliberately leaves an honest exception list rather than
+# force-matching. These endpoints are where a person resolves that residual:
+# each exception is presented with the candidate rows that make the call
+# possible, and the decision is persisted with an audit trail
+# (db.reconciliation_reviews) that survives the pipeline's full-refresh.
+
+
+def _review_candidates(exception: dict[str, Any], ledger_rows, bank_rows) -> list[dict[str, Any]]:
+    """The opposite side's rows sharing this exception's order_id — what a
+    reviewer needs to see to judge whether a pairing is right. Same-order_id
+    only: without a shared join key there's nothing principled to suggest,
+    and inventing cross-order candidates would invite exactly the false
+    matches the engine refused to make."""
+    if not exception.get("order_id"):
+        return []
+    opposite = bank_rows if exception["side"] == "ledger" else ledger_rows
+    return [r for r in opposite if r.get("order_id") == exception["order_id"]]
+
+
+@app.get("/api/reconciliation/review-queue")
+def review_queue(status: str | None = None) -> dict[str, Any]:
+    """`status` filters to "pending" or "resolved"; omitted returns both."""
+    exceptions = db.load_reconciliation_exceptions()
+    ledger_rows = db.load_ledger_rows()
+    bank_rows = db.load_bank_rows()
+    reviews_by_key = {(r["row_id"], r["side"]): r for r in db.load_reconciliation_reviews()}
+
+    ledger_by_id = {r["row_id"]: r for r in ledger_rows}
+    bank_by_id = {r["row_id"]: r for r in bank_rows}
+
+    items = []
+    for e in exceptions:
+        review = reviews_by_key.get((e["row_id"], e["side"]))
+        if status == "pending" and review is not None:
+            continue
+        if status == "resolved" and review is None:
+            continue
+        source = ledger_by_id.get(e["row_id"]) or bank_by_id.get(e["row_id"])
+        items.append(
+            {
+                **e,
+                "source_row": source,
+                "candidates": _review_candidates(e, ledger_rows, bank_rows),
+                "review": review,
+            }
+        )
+
+    return {
+        "total": len(exceptions),
+        "pending": sum(1 for e in exceptions if (e["row_id"], e["side"]) not in reviews_by_key),
+        "resolved": sum(1 for e in exceptions if (e["row_id"], e["side"]) in reviews_by_key),
+        "items": items,
+    }
+
+
+VALID_DECISIONS = {"approved_match", "written_off", "manually_paired"}
+
+
+class ReviewDecisionRequest(BaseModel):
+    row_id: str
+    side: str
+    decision: str
+    order_id: str | None = None
+    paired_row_id: str | None = None
+    note: str | None = None
+    reviewer: str | None = None
+
+
+@app.post("/api/reconciliation/review")
+def submit_review(req: ReviewDecisionRequest) -> dict[str, Any]:
+    if req.decision not in VALID_DECISIONS:
+        raise HTTPException(
+            status_code=400,
+            detail=f"decision must be one of {sorted(VALID_DECISIONS)}",
+        )
+    if req.decision == "manually_paired" and not req.paired_row_id:
+        raise HTTPException(
+            status_code=400,
+            detail="paired_row_id is required when decision is 'manually_paired'",
+        )
+    return db.save_reconciliation_review(
+        row_id=req.row_id,
+        side=req.side,
+        decision=req.decision,
+        order_id=req.order_id,
+        paired_row_id=req.paired_row_id,
+        note=req.note,
+        reviewer=req.reviewer,
+    )
+
+
+@app.delete("/api/reconciliation/review")
+def reopen_review(row_id: str, side: str) -> dict[str, bool]:
+    db.delete_reconciliation_review(row_id, side)
+    return {"reopened": True}
 
 
 @app.get("/api/tax/summary")
@@ -89,16 +189,38 @@ def forecast(reference_date: str | None = None) -> dict[str, Any]:
     }
 
 
+@app.get("/api/forecast/gmv")
+def forecast_gmv() -> dict[str, Any]:
+    from backend.forecaster.gmv import predict_next_day_gmv
+
+    transactions = db.load_base_transactions()
+    return predict_next_day_gmv(transactions)
+
+
+@app.get("/api/cash-position")
+def cash_position(current_cash: float = 1_000_000.0) -> dict[str, Any]:
+    """Deterministic cash-position calculation — see
+    backend/finance/cash_position.py. `current_cash` has no authoritative
+    source in this synthetic dataset, so it's an explicit caller-supplied
+    input (defaulted for a convenient demo call, never fabricated as if it
+    came from real account data)."""
+    from backend.finance.cash_position import compute_cash_position
+
+    transactions = db.load_base_transactions()
+    return compute_cash_position(transactions, current_cash)
+
+
 class QARequest(BaseModel):
     question: str
 
 
 @app.post("/api/qa")
-def qa(req: QARequest) -> dict[str, str]:
+def qa(req: QARequest) -> dict[str, Any]:
     if not req.question.strip():
         raise HTTPException(status_code=400, detail="question must not be empty")
     records = load_settlement_records()
-    return {"answer": answer_question(req.question, records)}
+    answer, trace = answer_question(req.question, records)
+    return {"answer": answer, "trace": trace}
 
 
 # --- Additive, read-only endpoints below. Each is a thin wrapper over the
@@ -123,7 +245,9 @@ def pipeline_status() -> dict[str, Any]:
         category_counts[c["category"]] = category_counts.get(c["category"], 0) + 1
 
     model_a = db.load_forecaster_metrics("model_a")
-    model_b = db.load_forecaster_metrics("model_b")
+    model_b_fee = db.load_forecaster_metrics("model_b_fee")
+    model_b_refund = db.load_forecaster_metrics("model_b_refund")
+    model_b_combined = db.load_forecaster_metrics("model_b_combined")
 
     embeddings = db.load_record_embeddings()
 
@@ -148,8 +272,10 @@ def pipeline_status() -> dict[str, Any]:
         },
         "forecast": {
             "model_a": model_a,
-            "model_b": model_b,
-            "gate": "passed" if model_a and model_b else "pending",
+            "model_b_fee": model_b_fee,
+            "model_b_refund": model_b_refund,
+            "model_b_combined": model_b_combined,
+            "gate": "passed" if model_a and model_b_fee and model_b_refund else "pending",
         },
         "qa": {
             "indexed_records": len(embeddings),
@@ -202,7 +328,10 @@ def reconciliation_matches(
 def forecaster_metrics() -> dict[str, Any]:
     return {
         "model_a": db.load_forecaster_metrics("model_a"),
-        "model_b": db.load_forecaster_metrics("model_b"),
+        "model_b_fee": db.load_forecaster_metrics("model_b_fee"),
+        "model_b_refund": db.load_forecaster_metrics("model_b_refund"),
+        "model_b_combined": db.load_forecaster_metrics("model_b_combined"),
+        "gmv": db.load_forecaster_metrics("gmv"),
     }
 
 
@@ -212,3 +341,50 @@ def tax_classifications_endpoint(category: str | None = None, limit: int = 50) -
     if category:
         classifications = [c for c in classifications if c["category"] == category]
     return {"total": len(classifications), "items": classifications[:limit]}
+
+
+# --- Track B: the live capability layer (CLAUDE.md sections 3-4). Same
+# reconciliation/tax_matcher/forecaster/qa_agent functions Track A uses — see
+# backend/track_b.py's module docstring for what's genuinely reused vs. why
+# it's deliberately NOT persisted to Postgres the way Track A's data is.
+
+
+class RazorpayConnectRequest(BaseModel):
+    key_id: str
+    key_secret: str
+
+
+@app.post("/api/track-b/connect")
+def track_b_connect(req: RazorpayConnectRequest) -> dict[str, Any]:
+    # req.key_secret is used only inside run_from_razorpay and is never
+    # logged, stored, or echoed back in this response.
+    try:
+        return track_b.run_from_razorpay(req.key_id, req.key_secret)
+    except Exception as e:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Couldn't connect to Razorpay with the provided credentials ({e.__class__.__name__}).",
+        ) from None
+
+
+@app.post("/api/track-b/upload")
+async def track_b_upload(ledger_file: UploadFile = File(...), bank_file: UploadFile = File(...)) -> dict[str, Any]:
+    ledger_csv = (await ledger_file.read()).decode("utf-8", errors="replace")
+    bank_csv = (await bank_file.read()).decode("utf-8", errors="replace")
+    try:
+        return track_b.run_from_csv(ledger_csv, bank_csv)
+    except CSVFormatError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from None
+
+
+class TrackBQARequest(BaseModel):
+    question: str
+    records: list[dict[str, Any]]
+
+
+@app.post("/api/track-b/qa")
+def track_b_qa(req: TrackBQARequest) -> dict[str, Any]:
+    if not req.question.strip():
+        raise HTTPException(status_code=400, detail="question must not be empty")
+    answer, trace = answer_question(req.question, req.records)
+    return {"answer": answer, "trace": trace}

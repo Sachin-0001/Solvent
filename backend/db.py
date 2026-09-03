@@ -16,6 +16,7 @@ than "regenerate the synthetic world," not just a bigger version of this one.
 
 from __future__ import annotations
 
+from datetime import datetime, timezone
 from typing import Any
 
 from sqlalchemy import (
@@ -56,6 +57,7 @@ base_transactions = Table(
     Column("refund_amount", Float),
     Column("gst_on_fee_flag", Boolean),
     Column("fee_amount", Float),
+    Column("fee_amount_pending", Boolean),
     Column("tax_on_fee", Float),
     Column("fee_pct", Float),
     Column("days_to_settle", Integer),
@@ -104,6 +106,11 @@ ground_truth = Table(
     Column("ledger_mismatch", String),
     Column("bank_mismatch", String),
     Column("should_fully_reconcile", Boolean),
+    # "must_match" | "ambiguous" | "no_counterpart" — see
+    # synthetic_data_generator._verdict. Kept alongside the boolean (rather
+    # than replacing it) so validate.py can report the match-rate shortfall's
+    # two distinct causes separately instead of conflating them.
+    Column("reconcile_verdict", String, index=True),
 )
 
 reconciliation_matches = Table(
@@ -128,6 +135,31 @@ reconciliation_exceptions = Table(
     Column("order_id", String, index=True),
     Column("reason", String),
     Column("explanation", String),
+)
+
+# Human-in-the-loop review decisions on reconciliation exceptions.
+#
+# Deliberately NOT part of any save_*/full-refresh cycle: every other derived
+# table is TRUNCATE+reinserted per pipeline run, but a reviewer's decision is
+# an audit record of something a person actually did — re-running ingestion
+# must not erase it. Keyed by (row_id, side) rather than the exceptions
+# table's surrogate `id`, because that id is reassigned on every refresh
+# (save_reconciliation_exceptions strips and re-generates it), so a review
+# pinned to it would silently attach to a different row after the next run.
+reconciliation_reviews = Table(
+    "reconciliation_reviews",
+    metadata,
+    Column("id", Integer, primary_key=True, autoincrement=True),
+    Column("row_id", String, index=True),
+    Column("side", String),
+    Column("order_id", String, index=True, nullable=True),
+    # "approved_match" | "written_off" | "manually_paired"
+    Column("decision", String, index=True),
+    # Set only for manually_paired: the counterpart the reviewer chose.
+    Column("paired_row_id", String, nullable=True),
+    Column("note", String, nullable=True),
+    Column("reviewer", String, nullable=True),
+    Column("decided_at", String),
 )
 
 tax_classifications = Table(
@@ -164,9 +196,22 @@ _engine: Engine | None = None
 
 
 def get_engine() -> Engine:
+    """
+    `pool_pre_ping`/`pool_recycle` matter now that the canonical database is
+    hosted (Supabase) rather than a local socket: a managed Postgres reaps
+    idle connections, so a pooled connection that sat unused across a quiet
+    period is often already dead. Without the pre-ping the first request
+    after an idle stretch fails with "server closed the connection
+    unexpectedly" — a local Postgres never exhibits this, which is exactly
+    why it's easy to miss until it happens in a deployed demo.
+    """
     global _engine
     if _engine is None:
-        _engine = create_engine(require_database_url())
+        _engine = create_engine(
+            require_database_url(),
+            pool_pre_ping=True,
+            pool_recycle=300,
+        )
     return _engine
 
 
@@ -268,6 +313,62 @@ def load_reconciliation_exceptions() -> list[dict[str, Any]]:
 
 def load_tax_classifications() -> list[dict[str, Any]]:
     return _fetch_all(tax_classifications)
+
+
+def load_reconciliation_reviews() -> list[dict[str, Any]]:
+    return _fetch_all(reconciliation_reviews)
+
+
+def save_reconciliation_review(
+    row_id: str,
+    side: str,
+    decision: str,
+    order_id: str | None = None,
+    paired_row_id: str | None = None,
+    note: str | None = None,
+    reviewer: str | None = None,
+) -> dict[str, Any]:
+    """
+    Records one reviewer decision, replacing any previous decision for the
+    same (row_id, side) so a reviewer can correct themselves without leaving
+    two contradictory rows. Note this is a *replace*, not an append-only
+    history — see the table docstring; a fuller audit trail would keep every
+    revision, which is the natural next step if decisions ever need to be
+    disputed rather than just recorded.
+    """
+    row = {
+        "row_id": row_id,
+        "side": side,
+        "order_id": order_id,
+        "decision": decision,
+        "paired_row_id": paired_row_id,
+        "note": note,
+        "reviewer": reviewer,
+        "decided_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    }
+    engine = get_engine()
+    with engine.begin() as conn:
+        conn.execute(
+            delete(reconciliation_reviews).where(
+                reconciliation_reviews.c.row_id == row_id,
+                reconciliation_reviews.c.side == side,
+            )
+        )
+        conn.execute(reconciliation_reviews.insert(), [row])
+    return row
+
+
+def delete_reconciliation_review(row_id: str, side: str) -> None:
+    """Reopens an exception by removing its decision — the undo path for a
+    reviewer who resolved something in error."""
+    engine = get_engine()
+    with engine.begin() as conn:
+        conn.execute(
+            delete(reconciliation_reviews).where(
+                reconciliation_reviews.c.row_id == row_id,
+                reconciliation_reviews.c.side == side,
+            )
+        )
 
 
 def load_forecaster_metrics(label: str) -> dict[str, Any] | None:
