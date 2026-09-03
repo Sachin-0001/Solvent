@@ -1,4 +1,5 @@
 razorpay
+mcp
 groq
 python-dotenv
 pandas<3  # pandas 3.x breaks scikit-learn 1.9's ColumnTransformer (feature_names_in_ AttributeError)
@@ -12,7 +13,11 @@ psycopg2-binary
 sentence-transformers
 fastapi
 uvicorn[standard]
+python-multipart  # required by FastAPI's UploadFile/Form parsing (track_b CSV upload)
 
 # Analysis-only, not imported by the pipeline itself — used by
 # backend/forecaster/plot_diagnostics.py to generate docs/figures/*.png
 matplotlib
+
+# Dev-only — test suite (backend/tests/), not imported by the pipeline itself
+pytest
