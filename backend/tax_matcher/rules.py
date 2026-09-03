@@ -16,7 +16,10 @@ Categories, in priority order:
 
 Returns None (unresolved) only when a required field is missing or malformed —
 that's the genuine, honest trigger for the LLM fallback tier, not manufactured
-ambiguity in the business logic itself.
+ambiguity in the business logic itself. `fee_amount_pending=True` is the one
+deliberately-injected case of this in the synthetic data: the gateway hasn't
+computed/swept the fee yet, the same real-world state razorpay_adapter.py
+already handles for live test-mode payments.
 """
 
 from __future__ import annotations
@@ -38,6 +41,8 @@ class TaxClassification:
 
 
 def classify_by_rules(txn: dict[str, Any]) -> TaxClassification | None:
+    if txn.get("fee_amount_pending"):
+        return None
     if any(txn.get(f) is None for f in REQUIRED_FIELDS):
         return None
 

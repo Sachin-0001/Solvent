@@ -21,6 +21,12 @@ def run_tax_matcher(transactions: list[dict[str, Any]]) -> dict:
         result = classify_by_rules(txn)
         if result is not None:
             rule_results.append(result)
+        elif txn.get("fee_amount_pending"):
+            # Mask the fee fields the rule engine couldn't see either — the
+            # LLM must reason from what's genuinely available, not silently
+            # get the answer for free from data the ledger export doesn't
+            # actually have yet.
+            unresolved.append({**txn, "fee_amount": None, "tax_on_fee": None})
         else:
             unresolved.append(txn)
 
