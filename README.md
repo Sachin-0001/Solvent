@@ -11,7 +11,7 @@ cash-position engine, and answers merchant questions about their settlements
 and cash position through a retrieval-backed Q&A agent - all surfaced through
 a Next.js "control room" dashboard.
 
-![Solvent dashboard](docs/figures/dashboard.jpg)
+![Solvent dashboard](docs/figures/dashboard.png)
 
 ## Track 04 alignment
 
@@ -28,8 +28,6 @@ Solvent is built around exactly those four:
 | **Explainability** | The three-tier reconciliation cascade (exact → fuzzy → LLM) and the rule-first tax classifier make it visible *why* a line resolved the way it did - code handles the cascade first, and the LLM tier is exercised only where deterministic rules can't decide, then asked to explain itself. |
 | **Human oversight** | Nothing is auto-closed. Every batch operation produces an honest, reasoned exception list for what it couldn't resolve - never hidden or force-matched - so a human reviews exactly the residual the system is unsure about. |
 
-## Architecture
-
 Six stages, strict dependency order - each depends on the previous stage's
 validated output (see [`CLAUDE.md`](CLAUDE.md) for the full contract):
 
@@ -41,102 +39,6 @@ validated output (see [`CLAUDE.md`](CLAUDE.md) for the full contract):
 5. Q&A agent         semantic retrieval (local sentence-transformers embeddings) + Groq
 6. Frontend          Next.js dashboard - pipeline rail, reconciliation, tax, forecast, cash position, Q&A
 ```
-
-```
-                                    API's
-                                    ------------------------------------
-                                    GET  /reconciliation/summary
-                                    GET  /reconciliation/exceptions
-                                    GET  /reconciliation/matches
-                                    GET  /reconciliation/review-queue
-                                    POST /reconciliation/review
-                                    DEL  /reconciliation/review
-                                    GET  /tax/summary
-                                    GET  /tax/classifications
-                                    GET  /forecast
-                                    GET  /forecast/gmv
-                                    GET  /forecaster/metrics
-                                    GET  /cash-position
-                                    GET  /health
-                                    GET  /pipeline/status
-                                    POST /qa
-                                    POST /track-b/connect
-                                    POST /track-b/upload
-                                    POST /track-b/qa
-
-  Bank statements   Internal ledgers   Invoices   Razorpay records
-        |                  \             /               |
-        `-------------------`-----------'----------------'
-                              v
-                       +--------------+
-                       | Data Ingestion| ---- records ----> [ record_embeddings ] <---+
-                       +--------------+                      (pgvector-ready store)   |
-                              |                                                       |
-        +---------------------+----------------------+                     +--------------------+
-        v                      v                      v                    | Settlement QA Agent |<-----+
-+------------------+   +--------------+       +--------------+             +--------------------+       |
-| Reconciliation   |   | Tax Matcher  |       | Forecaster   |                        ^                 |
-| Engine           |   +--------------+       +--------------+                        |                 |
-+------------------+     |         ^             |    |    |                    +-----------+       +------+
-   |   |    |            v         |             v    v    v                    |  Tools    |       | groq |
-   v   v    v         +-----+   +------+     +------+ +------+ +------+         | search_*  |<------+------+
- exact fuzzy LLM       |rules|   | LLM  |     |modelA| |modelB| |modelC|         | find_rel. |  openai/gpt-oss-120b
- match match match     +-----+   |fallbk|     +------+ +------+ +------+        | gen_audit |
-   |                              +------+    days to  deduc-   gmv             | _report   |
-   v                                            settle  tion pct (Regression    +-----------+
-[ exceptions ] -.
-   ^             \
-   |              `--> [ HIL ]   human reviews the residual, decides, writes an audit trail
-   `------------------------/
-```
-
-Read top to bottom: two inputs feed ingestion (**Track A** - the synthetic
-demo dataset, or **Track B** - a merchant's own CSV upload / Razorpay sign-in).
-Everything ingestion derives is indexed into `record_embeddings` for retrieval
-and fanned out to the three downstream engines. Reconciliation's residual -
-whatever exact match, fuzzy match, and the LLM tier all fail to close - lands
-in the exception ledger, and from there in the **human-in-the-loop review
-queue** (`GET /reconciliation/review-queue`, `POST /reconciliation/review`):
-a person approves a match, pairs it manually, or writes it off, and that
-decision is the one table that survives a full pipeline re-run. The tax
-matcher's LLM fallback only ever sees what the rule engine couldn't resolve.
-The forecaster runs three regression models per request - Model A
-(`days_to_settle`), Model B (`deduction_pct`), and GMV - never routed, never
-skipped. The Q&A agent is the only place the LLM (Groq, `openai/gpt-oss-120b`
-by default) drives multi-step behavior: it calls `search_payments`,
-`search_settlements`, `search_invoices`, `find_relation`, and
-`generate_audit_report` in a tool-calling loop over the same embeddings
-store, rather than answering from a single prompt.
-
-**Forecasting is two distinct layers, not one:**
-- **Model A/B** (`backend/forecaster/train.py`/`predict.py`) - per-transaction
-  `days_to_settle` and `deduction_pct`, trained scikit-learn LinearRegression.
-- **Operational daily forecasts** (`backend/forecaster/gmv.py`,
-  `refund_baseline.py`, `settlement_baseline.py`) - next-day GMV, refunds, and
-  net settlement. GMV's LinearRegression validated better than a naive
-  previous-day baseline and is deployed; refund's and settlement's did not
-  (46% and 55% worse respectively) and were rejected in favor of the naive
-  baseline - see [`docs/metrics.md`](docs/metrics.md) Stage 5 for the numbers.
-  These three feed **`backend/finance/cash_position.py`**, a deterministic
-  `current_cash + expected_settlement - expected_refunds = projected_cash`
-  calculation exposed at `GET /api/cash-position` - no LLM ever performs this
-  arithmetic.
-
-- **Single Groq entry point** (`backend/llm/groq_client.py`) - every LLM call in
-  the codebase goes through one wrapper with retry/backoff and JSON
-  extraction/repair built in; nothing else imports the Groq SDK directly.
-- **Minimize LLM calls by design** - exact/fuzzy matching, the tax rules
-  engine, and both forecaster models are pure code/ML. The LLM is used only
-  for reconciliation's exception residual, the tax matcher's rule-fallback,
-  and the Q&A agent.
-- **Pluggable ingestion adapters** (`backend/ingestion/base.py`) - real
-  Razorpay API, synthetic file reader, DB-backed reader, and a documented
-  (not built) stub for a future PDF-statement adapter.
-- **Postgres is the canonical store** (`backend/db.py`) for everything
-  ingestion derives; raw `internal_ledger.json`/`bank_statement.json` stay as
-  files, standing in for the external documents a real merchant's systems
-  would hand over.
-
 ## Reproducing this locally
 
 ```bash
@@ -287,7 +189,6 @@ the page structure mirrors the pipeline itself:
 - **Ask rail** - the Q&A agent docked as a terminal-style transcript
   (⌘K to focus), instead of a bottom-of-page chat widget.
 
-### Ideas for a further pass (not yet built)
 
 - **Command palette (⌘K) as a real overlay** rather than just focusing the
   docked input - a modal with fuzzy-searchable quick actions (jump to a
@@ -342,11 +243,3 @@ Solvent/
   CLAUDE.md               # full architecture contract
   .env.example
 ```
-
-## Status
-
-Build proceeds stage by stage per the dependency order above; validation
-numbers for reconciliation and the forecaster are reported before advancing
-- see [`docs/metrics.md`](docs/metrics.md) and
-[`docs/forecaster_diagnostics.md`](docs/forecaster_diagnostics.md) for the
-latest recorded numbers, and `git log` for build history.
