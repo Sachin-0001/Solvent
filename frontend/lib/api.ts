@@ -1,4 +1,8 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
+// Strip any trailing slash — every call below does `${API_BASE}${path}` with
+// a leading-slash path, so a trailing slash on the env var (e.g. someone
+// pastes "https://api.example.com/") would double up into "//api/..." and
+// 404 on every request.
+const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000").replace(/\/+$/, "");
 
 export interface ReconciliationSummary {
   total_ground_truth_txns: number;

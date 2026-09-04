@@ -1,0 +1,23 @@
+name: Keep Render backend alive
+
+# Render's free tier spins the instance down after 15 minutes with no
+# inbound traffic, so this pings the existing health endpoint every 10
+# minutes to keep it warm. It also incidentally exercises db.healthcheck(),
+# which is a real Postgres round-trip via Supabase, not a no-op.
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping /api/health
+        run: |
+          status=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 https://solvent-zgi0.onrender.com/api/health)
+          echo "Health check responded with HTTP $status"
+          if [ "$status" != "200" ]; then
+            echo "::warning::Health check did not return 200 (got $status)"
+          fi
