@@ -204,6 +204,15 @@ def get_engine() -> Engine:
     after an idle stretch fails with "server closed the connection
     unexpectedly" — a local Postgres never exhibits this, which is exactly
     why it's easy to miss until it happens in a deployed demo.
+
+    `pool_size`/`max_overflow` are capped well below SQLAlchemy's own
+    defaults (5 + 10 = 15) because Supabase's session-mode pooler enforces a
+    hard ceiling of 15 total client connections on the smaller compute
+    tiers — hitting that default exactly reproduced
+    "FATAL: max clients reached in session mode" under a burst of concurrent
+    dashboard polls. A small pool is also the right size for a
+    single-worker, 0.1-CPU free-tier instance, which gets no real throughput
+    benefit from holding more connections open anyway.
     """
     global _engine
     if _engine is None:
@@ -211,6 +220,8 @@ def get_engine() -> Engine:
             require_database_url(),
             pool_pre_ping=True,
             pool_recycle=300,
+            pool_size=3,
+            max_overflow=2,
         )
     return _engine
 

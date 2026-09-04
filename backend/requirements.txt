@@ -4,7 +4,7 @@ groq
 python-dotenv
 pandas<3  # pandas 3.x breaks scikit-learn 1.9's ColumnTransformer (feature_names_in_ AttributeError)
 numpy
-scikit-learn
+scikit-learn==1.5.2  # must match the version the committed joblib artifacts were pickled with — 1.9.0 changed ColumnTransformer's pickle format (AttributeError: _RemainderColsList) and can't unpickle them
 rapidfuzz
 pydantic
 joblib
